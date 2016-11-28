@@ -2,8 +2,10 @@ package model;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Observable;
 
-public abstract class Ship {
+public abstract class Ship extends Observable {
+	
 	protected Position position;
 	protected float damage;
 	protected float life;
@@ -45,4 +47,11 @@ public abstract class Ship {
 	
 	abstract public Image getSprite() throws IOException;
 
+	public void setLife(float life) {
+		this.life = life;
+	}
+	
+	public float getLife() {
+		return life;
+	}
 }

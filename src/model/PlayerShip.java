@@ -41,4 +41,9 @@ public class PlayerShip extends Ship {
 		return ImageIO.read(new File("assets/playership.png"));
 	}
 	
+	public void setLife(float life) {
+		super.setLife(life);
+		setChanged();
+	}
+	
 }

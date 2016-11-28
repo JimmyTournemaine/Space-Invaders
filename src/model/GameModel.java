@@ -4,21 +4,22 @@ import java.util.*;
 
 import model.invaders.Invader;
 
-public class GameModel {
+public class GameModel extends Observable {
 	public final static int CELL_WIDTH = 10;
     public final static int CELL_HEIGHT = 10;
-    public boolean right;
+    private boolean right;
     
-	Map map;
-	Ship player;
-	List<Invader> invaders;
+    private int score;
+	private Map map;
+	private Ship player;
+	private List<Invader> invaders;
 	
 	public GameModel(int level){
 		this.map = new Map(CELL_WIDTH,CELL_HEIGHT);
 		this.player = new PlayerShip(this.map, new Position(0,0));
 		invaders = Actions.create(level, map);
 		right = false;
-		
+		score = 0;
 	}
 
 	public GameModel() {
@@ -82,5 +83,14 @@ public class GameModel {
 		return invaders;
 	}
 	
+	public void setScore(int score) {
+		this.score = score;
+		setChanged();
+	}
+	
+	public int getScore()
+	{
+		return score;
+	}
 	
 }

@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -60,14 +62,18 @@ public class App extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblScore = new JLabel("Score : 0");
+		JLabel lblScore = new ValueLabel("Score", 0);
 		lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblScore, BorderLayout.EAST);
 
-		JLabel lblLife = new JLabel("Life : 0");
+		model = new GameModel();
+		
+		JLabel lblLife = new ValueLabel("Life", (int) model.getPlayer().getLife());
 		panel.add(lblLife);
 
-		model = new GameModel();
+		model.addObserver((Observer) lblScore);
+		model.getPlayer().addObserver((Observer) lblLife);
+		
 		canvas = new GameView(model);
 		contentPane.add(canvas, BorderLayout.CENTER);
 	}
@@ -79,9 +85,10 @@ public class App extends JFrame {
             public void actionPerformed(ActionEvent e) {
             	model.moveInvaders();
 				canvas.repaint();
+				
+				model.notifyObservers(model.getScore());
             }
         });
         timer.start();
 	}
-
 }
