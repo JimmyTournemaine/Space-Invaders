@@ -13,7 +13,7 @@ public class GameController implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("event key");
+		
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_Q:
@@ -58,7 +58,7 @@ public class GameController implements KeyListener {
 	}
 
 	public void goRight() {
-		if(model.playerMoveRightOk()) model.playerMoveLeft();
+		if(model.playerMoveRightOk()) model.playerMoveRight();
 		view.repaint();
 	}
 
