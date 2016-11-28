@@ -1,8 +1,5 @@
 package model.invaders;
 
-import java.awt.Image;
-import java.io.IOException;
-
 import model.Map;
 import model.Position;
 import model.Ship;

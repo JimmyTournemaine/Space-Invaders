@@ -6,19 +6,15 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import controller.GameController;
 import model.GameModel;
 import model.Position;
 import model.invaders.Invader;
 
-public class GameView extends Canvas implements KeyListener {
+public class GameView extends Canvas {
 
 	private static final long serialVersionUID = 9171658068315238226L;
 	private GameModel model;
@@ -27,6 +23,7 @@ public class GameView extends Canvas implements KeyListener {
 	GameView(GameModel model) throws IOException {
 		this.model = model;
 		this.controller = new GameController(model, this);
+		this.addKeyListener(this.controller);
 	}
 
 	public void paint(Graphics gr) {
@@ -53,46 +50,5 @@ public class GameView extends Canvas implements KeyListener {
 		}
 	}
 
-	public void paintShip(Graphics2D g) throws IOException {
-
-	}
-
-	public void paintInvaders(Graphics2D g, List<Invader> invaders) throws IOException {
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// DO NOTHING
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_Q:
-			controller.goLeft();
-			break;
-		case KeyEvent.VK_RIGHT:
-		case KeyEvent.VK_D:
-			controller.goRight();
-			break;
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_Z:
-			controller.goUp();
-			break;
-		case KeyEvent.VK_DOWN:
-		case KeyEvent.VK_S:
-			controller.goDown();
-			break;
-		case KeyEvent.VK_SPACE:
-		case KeyEvent.VK_X:
-			controller.shoot();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// DO NOTHING
-	}
+	
 }

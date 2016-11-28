@@ -36,25 +36,25 @@ public class GameModel {
 		}
 	}
 
-	public boolean invadersMoveRightOk(){
+	private boolean invadersMoveRightOk(){
 		if (Actions.mostRight(invaders).moveRightOk()) return true;
 		return false;
 	}
 	
-	public boolean invadersMoveLeftOk(){
+	private boolean invadersMoveLeftOk(){
 		if (Actions.mostLeft(invaders).moveLeftOk()) return true;
 		return false;
 	}
 	
-	public void invadersMoveRight(){
+	private void invadersMoveRight(){
 		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveRight();		
 	}
 	
-	public void invadersMoveLeft(){
+	private void invadersMoveLeft(){
 		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveLeft();		
 	}
 	
-	public void invadersMoveDown(){
+	private void invadersMoveDown(){
 		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveDown();		
 	}
 	
