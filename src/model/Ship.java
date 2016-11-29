@@ -9,19 +9,13 @@ public abstract class Ship extends Observable {
 	protected Position position;
 	protected float damage;
 	protected float life;
-	protected Map myMap;
 	
 	public abstract boolean moveLeftOk();
 	public abstract boolean moveRightOk();
 	public abstract boolean moveUpOk();
 	public abstract boolean moveDownOk();
 	
-	public Ship (Map myMap){
-		this.myMap = myMap;
-	}
-	
-	public Ship (Map myMap, Position pos){
-		this.myMap = myMap;
+	public Ship (Position pos){
 		this.position = pos;
 	}
 	

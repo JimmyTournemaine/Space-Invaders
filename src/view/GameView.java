@@ -1,17 +1,18 @@
 package view;
 
-import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.Iterator;
+
+import javax.swing.JComponent;
 
 import controller.GameController;
 import model.GameModel;
 import model.Position;
 import model.invaders.Invader;
 
-public class GameView extends Canvas {
+public class GameView extends JComponent {
 
 	private static final long serialVersionUID = 9171658068315238226L;
 	private GameModel model;

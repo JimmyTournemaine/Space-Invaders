@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -25,7 +26,7 @@ public class App extends JFrame {
 	private static final long serialVersionUID = -3449937559620207851L;
 	private JPanel contentPane;
 	GameModel model;
-	Canvas canvas;
+	JComponent canvas;
 
 	/**
 	 * Launch the application.
@@ -79,16 +80,21 @@ public class App extends JFrame {
 	}
 
 	void loop() {
-		
-		Timer timer = new Timer(1000, new ActionListener() {
+		Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				canvas.repaint();
+            }
+        });
+		Timer timer2 = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	model.moveInvaders();
-				canvas.repaint();
-				
 				model.notifyObservers(model.getScore());
             }
         });
+		
         timer.start();
+        timer2.start();
 	}
 }

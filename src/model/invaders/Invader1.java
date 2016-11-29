@@ -11,8 +11,8 @@ import model.Position;
 
 public class Invader1 extends Invader {
 
-	public Invader1(Map myMap, Position pos) {
-		super(myMap, pos);
+	public Invader1(Position pos) {
+		super(pos);
 	}
 
 	@Override

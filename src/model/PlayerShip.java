@@ -8,8 +8,8 @@ import javax.imageio.ImageIO;
 
 public class PlayerShip extends Ship {
 
-	public PlayerShip(Map myMap, Position position) {
-		super(myMap, position);
+	public PlayerShip(Position position) {
+		super(position);
 	}
 
 	public boolean moveLeftOk(){
@@ -19,7 +19,7 @@ public class PlayerShip extends Ship {
 	}
 	
 	public boolean moveRightOk(){
-		if (position.getX() == myMap.limitWidth)
+		if (position.getX() == GameModel.CELL_WIDTH-1)
 			return false;
 		return true;
 	}

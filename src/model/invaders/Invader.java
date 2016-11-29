@@ -1,13 +1,14 @@
 package model.invaders;
 
+import model.GameModel;
 import model.Map;
 import model.Position;
 import model.Ship;
 
 abstract public class Invader extends Ship {
 
-	public Invader(Map myMap, Position pos) {
-		super(myMap, pos);
+	public Invader(Position pos) {
+		super(pos);
 	}
 
 	public boolean moveLeftOk() {
@@ -15,7 +16,7 @@ abstract public class Invader extends Ship {
 	}
 
 	public boolean moveRightOk() {
-		return position.getX() != myMap.limitWidth;
+		return position.getX() != GameModel.CELL_WIDTH-1;
 	}
 
 	public boolean moveUpOk() {

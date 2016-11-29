@@ -10,14 +10,12 @@ public class GameModel extends Observable {
     private boolean right;
     
     private int score;
-	private Map map;
 	private Ship player;
 	private List<Invader> invaders;
 	
 	public GameModel(int level){
-		this.map = new Map(CELL_WIDTH,CELL_HEIGHT);
-		this.player = new PlayerShip(this.map, new Position(0,0));
-		invaders = Actions.create(level, map);
+		this.player = new PlayerShip(new Position(0,0));
+		invaders = Level.create(level);
 		right = false;
 		score = 0;
 	}
@@ -26,53 +24,27 @@ public class GameModel extends Observable {
 		this(1);
 	}
 	
-	public void moveInvaders() {
+	public boolean moveInvaders() {
 		if (right && this.invadersMoveRightOk()) {
-			this.invadersMoveRight();
+			for (int i = 0; i<invaders.size();i++) invaders.get(i).moveRight();
 		} else if (!right && this.invadersMoveLeftOk()) {
-			this.invadersMoveLeft();
+			for (int i = 0; i<invaders.size();i++) invaders.get(i).moveLeft();
 		} else {
-			this.invadersMoveDown();
+			for (int i = 0; i<invaders.size();i++) invaders.get(i).moveDown();
 			right = !right;
+			return false;
 		}
+		return true;
 	}
 
 	private boolean invadersMoveRightOk(){
-		if (Actions.mostRight(invaders).moveRightOk()) return true;
+		if (InvadersPos.mostRight(invaders).moveRightOk()) return true;
 		return false;
 	}
 	
 	private boolean invadersMoveLeftOk(){
-		if (Actions.mostLeft(invaders).moveLeftOk()) return true;
-		return false;
-	}
-	
-	private void invadersMoveRight(){
-		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveRight();		
-	}
-	
-	private void invadersMoveLeft(){
-		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveLeft();		
-	}
-	
-	private void invadersMoveDown(){
-		for (int i = 0; i<invaders.size();i++) invaders.get(i).moveDown();		
-	}
-	
-	public boolean playerMoveRightOk(){
-		return player.moveRightOk();
-	}
-	
-	public boolean playerMoveLeftOk(){
-		return player.moveLeftOk();
-	}
-	
-	public void playerMoveLeft(){
-		player.moveLeft();		
-	}
-	
-	public void playerMoveRight(){
-		player.moveRight();		
+		if (InvadersPos.mostLeft(invaders).moveLeftOk()) return true;
+		return false; 
 	}
 
 	public Ship getPlayer() {

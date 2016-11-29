@@ -53,21 +53,31 @@ public class GameController implements KeyListener {
 	}
 
 	public void goLeft() {
-		if(model.playerMoveLeftOk()) model.playerMoveLeft();
-		view.repaint();
+		if(model.getPlayer().moveLeftOk()) {
+			model.getPlayer().moveLeft();
+			view.repaint();
+		}
 	}
 
 	public void goRight() {
-		if(model.playerMoveRightOk()) model.playerMoveRight();
-		view.repaint();
+		if(model.getPlayer().moveRightOk()) {
+			model.getPlayer().moveRight();
+			view.repaint();
+		}
 	}
 
 	public void goUp() {
-		
+		if(model.getPlayer().moveUpOk()) {
+			model.getPlayer().moveUp();
+			view.repaint();
+		}
 	}
 
 	public void goDown() {
-
+		if(model.getPlayer().moveDownOk()) {
+			model.getPlayer().moveDown();
+			view.repaint();
+		}
 	}
 
 	public void shoot() {
