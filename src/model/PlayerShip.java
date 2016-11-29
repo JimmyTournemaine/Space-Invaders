@@ -41,6 +41,14 @@ public class PlayerShip extends Ship {
 		return ImageIO.read(new File("assets/playership.png"));
 	}
 	
+	@Override
+	public Missile shoot() {
+		return new Missile(
+				new Position(this.getPosition().getX(), this.getPosition().getY()), 
+				Missile.NORTH
+		);
+	}
+	
 	public void setLife(float life) {
 		super.setLife(life);
 		setChanged();

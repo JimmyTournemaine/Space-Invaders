@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 
 import controller.GameController;
 import model.GameModel;
+import model.Missile;
 import model.Position;
 import model.invaders.Invader;
 
@@ -22,6 +23,8 @@ public class GameView extends JComponent {
 		this.model = model;
 		this.controller = new GameController(model, this);
 		this.addKeyListener(this.controller);
+		this.setFocusable(true);
+		this.requestFocusInWindow();
 	}
 
 	public void paint(Graphics gr) {
@@ -43,6 +46,14 @@ public class GameView extends JComponent {
 				Position pos1 = new Position(p1.getX() * caseX, this.getHeight() - (p1.getY()+1)*(caseY));
 				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(), null);
 			}
+			
+			/* Missiles */
+			for(Missile m : model.getMissiles()) {
+				Position p2 = m.getPosition();
+				Position pos2 = new Position(p2.getX() * caseX, this.getHeight() - (p2.getY()+1)*(caseY));
+				g.drawRect(pos2.getX(), pos2.getY(), caseX, caseY);
+			}
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

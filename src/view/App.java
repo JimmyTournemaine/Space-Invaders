@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JComponent;
@@ -16,17 +17,18 @@ import javax.swing.border.EmptyBorder;
 import model.GameModel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import java.awt.Canvas;
+public class App extends JFrame implements ActionListener, MouseListener {
 
-public class App extends JFrame {
-
+	private static final int LOOP_DELAY = 500;
 	private static final long serialVersionUID = -3449937559620207851L;
 	private JPanel contentPane;
 	GameModel model;
 	JComponent canvas;
+	Timer timer;
 
 	/**
 	 * Launch the application.
@@ -37,7 +39,6 @@ public class App extends JFrame {
 				try {
 					App frame = new App();
 					frame.setVisible(true);
-					frame.loop();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,33 +69,63 @@ public class App extends JFrame {
 		panel.add(lblScore, BorderLayout.EAST);
 
 		model = new GameModel();
-		
+
 		JLabel lblLife = new ValueLabel("Life", (int) model.getPlayer().getLife());
 		panel.add(lblLife);
 
 		model.addObserver((Observer) lblScore);
 		model.getPlayer().addObserver((Observer) lblLife);
-		
+
 		canvas = new GameView(model);
+		canvas.addMouseListener(this);
 		contentPane.add(canvas, BorderLayout.CENTER);
+
+		timer = new Timer(LOOP_DELAY, this);
 	}
 
-	void loop() {
-		Timer timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-				canvas.repaint();
-            }
-        });
-		Timer timer2 = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	model.moveInvaders();
-				model.notifyObservers(model.getScore());
-            }
-        });
-		
-        timer.start();
-        timer2.start();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		canvas.repaint();
+		int res = model.move();
+		if (res == GameModel.GAME_OVER) {
+			timer.stop();
+			if (JOptionPane.showConfirmDialog(this, "Start a new Game ?", "Game Over !",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				model.newGame();
+				timer.restart();
+			}
+		} else if (res == GameModel.GAME_LEVEL_DONE) {
+			model.nextLevel();
+		}
+		model.notifyObservers(model.getScore());
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (timer.isRunning())
+			timer.stop();
+		else
+			timer.start();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// Nothing to do
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// Nothing to do
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// Nothing to do
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if (timer.isRunning())
+			timer.stop();
 	}
 }

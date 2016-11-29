@@ -14,10 +14,12 @@ public class Level {
 		}
 	}
 
-	private static ArrayList<Invader> level1() {
+	private static ArrayList<Invader>  level1() {
 		ArrayList<Invader> invaders = new ArrayList<Invader>();
-		for (int i = 4; i < GameModel.CELL_HEIGHT-4; i++)
-			invaders.add(new Invader1(new Position(i, GameModel.CELL_HEIGHT-1)));
+		for (int i = 4; i < GameModel.CELL_HEIGHT-4; i++){
+			Invader inv = new Invader1(new Position(i, GameModel.CELL_HEIGHT-1));
+			invaders.add(inv);
+		}
 		return invaders;
 	}
 	

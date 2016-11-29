@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import model.Map;
 import model.Position;
 
 public class Invader1 extends Invader {

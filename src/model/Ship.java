@@ -4,9 +4,8 @@ import java.awt.Image;
 import java.io.IOException;
 import java.util.Observable;
 
-public abstract class Ship extends Observable {
+public abstract class Ship extends AnimatedObject {
 	
-	protected Position position;
 	protected float damage;
 	protected float life;
 	
@@ -16,15 +15,7 @@ public abstract class Ship extends Observable {
 	public abstract boolean moveDownOk();
 	
 	public Ship (Position pos){
-		this.position = pos;
-	}
-	
-	public void moveUp(){
-		position.updateY(position.getY() + 1);
-	}
-	
-	public void moveDown(){
-		position.updateY(position.getY() - 1);
+		super(pos);
 	}
 	
 	public void moveLeft(){
@@ -48,4 +39,6 @@ public abstract class Ship extends Observable {
 	public float getLife() {
 		return life;
 	}
+	
+	abstract public Missile shoot();
 }

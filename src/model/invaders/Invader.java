@@ -1,7 +1,7 @@
 package model.invaders;
 
 import model.GameModel;
-import model.Map;
+import model.Missile;
 import model.Position;
 import model.Ship;
 
@@ -27,5 +27,10 @@ abstract public class Invader extends Ship {
 		if (position.getY() == 0)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public Missile shoot() {
+		return new Missile(this.position, Missile.SOUTH);
 	}
 }

@@ -81,7 +81,7 @@ public class GameController implements KeyListener {
 	}
 
 	public void shoot() {
-
+		model.playerShoot();
 	}
 
 }
