@@ -44,14 +44,15 @@ public class GameView extends JComponent {
 				Invader inv = itor.next();
 				Position p1 = inv.getPosition();
 				Position pos1 = new Position(p1.getX() * caseX, this.getHeight() - (p1.getY()+1)*(caseY));
-				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(), null);
+				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
 			}
 			
 			/* Missiles */
 			for(Missile m : model.getMissiles()) {
 				Position p2 = m.getPosition();
 				Position pos2 = new Position(p2.getX() * caseX, this.getHeight() - (p2.getY()+1)*(caseY));
-				g.drawRect(pos2.getX(), pos2.getY(), caseX, caseY);
+			//	g.drawRect(pos2.getX(), pos2.getY(), caseX, caseY);
+				g.drawImage(m.getSprite(), pos2.getX(), pos2.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
 			}
 			
 		} catch(Exception e) {
