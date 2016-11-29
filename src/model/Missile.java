@@ -1,5 +1,11 @@
 package model;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Missile extends AnimatedObject{
 	private boolean direction; 
 	
@@ -9,11 +15,6 @@ public class Missile extends AnimatedObject{
 	public Missile(Position position, boolean direction){
 		super(position);
 		this.direction = direction; 
-	}
-	
-	public float shot(Ship ship) {
-		ship.setLife(ship.getLife() - this.damage);
-		return ship.getLife();
 	}
 	
 	@Override
@@ -30,4 +31,7 @@ public class Missile extends AnimatedObject{
 		return direction;
 	}
 	
+	public Image getSprite() throws IOException {
+		return ImageIO.read(new File("assets/missiles.jpg"));
+	}	
 }

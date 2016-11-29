@@ -15,8 +15,7 @@ import model.invaders.Invader;
 
 public class GameView extends JComponent {
 
-
-	private static final long serialVersionUID = 5974597099930194729L;
+	private static final long serialVersionUID = 9171658068315238226L;
 	private GameModel model;
 	private GameController controller;
 
@@ -34,7 +33,7 @@ public class GameView extends JComponent {
 			int caseX = this.getWidth() / GameModel.CELL_WIDTH;
 			int caseY = this.getHeight() / GameModel.CELL_HEIGHT;
 			
-			/* Player Ship */
+			/* Ship */
 			Position p = model.getPlayer().getPosition();
 			Position pos = new Position(p.getX() * caseX, this.getHeight() - (p.getY()+1)*(caseY));
 			g.drawImage(model.getPlayer().getSprite(), pos.getX(), pos.getY(), this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
@@ -45,14 +44,14 @@ public class GameView extends JComponent {
 				Invader inv = itor.next();
 				Position p1 = inv.getPosition();
 				Position pos1 = new Position(p1.getX() * caseX, this.getHeight() - (p1.getY()+1)*(caseY));
-				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(), null);
+				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
 			}
 			
 			/* Missiles */
 			for(Missile m : model.getMissiles()) {
 				Position p2 = m.getPosition();
-				Position pos2 = new Position(p2.getX() * caseX, this.getHeight() - (p2.getY()+2)*(caseY));
-				g.drawRect(pos2.getX(), pos2.getY(), caseX, caseY);
+				Position pos2 = new Position(p2.getX() * caseX, this.getHeight() - (p2.getY()+1)*(caseY));
+				g.drawImage(m.getSprite(), pos2.getX(), pos2.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
 			}
 			
 		} catch(Exception e) {
