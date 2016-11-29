@@ -46,20 +46,17 @@ public class GameModel extends Observable {
 			while(itor.hasNext()) {
 				Invader iv = itor.next();
 				if(m.getPosition().equals(iv.getPosition())){
-					itor.remove();
 					it.remove();
+					if(m.shot(iv) <= 0){ // Killed
+						itor.remove();
+						this.setScore((int) (score+10*(m.getLife()+m.getDamage())/2));
+					}
 				}
 			}
 		}
 	}
 
 	public int move() {
-		/* Collision */
-		this.checkMissiles();
-
-		if (invaders.isEmpty())
-			return GAME_LEVEL_DONE;
-
 		/* Move missiles */
 		Iterator<Missile> it = missiles.iterator();
 		while (it.hasNext()) {
@@ -89,6 +86,23 @@ public class GameModel extends Observable {
 			} else
 				return GAME_OVER;
 		}
+		
+		/* Collision */
+		this.checkMissiles();
+		
+		Iterator<Invader> it2 = invaders.iterator();
+		while(it2.hasNext()) {
+			Invader iv = it2.next();
+			//System.out.printf("(%d,%d) — (%d,%d)", player.getPosition().getX(), player.getPosition().getY(), iv.getPosition().getX());
+			if(iv.getPosition().equals(player.getPosition())) {
+				player.setLife(player.getLife() - iv.getDamage());
+				if(player.getLife() <= 0)
+					return GameModel.GAME_OVER;
+			}
+		}
+
+		if (invaders.isEmpty())
+			return GAME_LEVEL_DONE;
 
 		return GAME_RUNNING;
 	}

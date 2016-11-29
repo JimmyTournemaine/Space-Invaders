@@ -11,14 +11,13 @@ public class ValueLabel extends JLabel implements Observer {
 	private static final long serialVersionUID = -2002923302303017240L;
 
 	public ValueLabel(String string, Object defaultValue) {
-		str = string + " : ";
-		this.setText(str + defaultValue);
+		str = string;
+		this.setText(String.format("%s : %s", str, defaultValue));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println(arg);
-		this.setText(str + arg);
+		this.setText(String.format("%s : %s", str, arg));
 	}
 
 }

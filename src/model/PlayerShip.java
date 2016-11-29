@@ -10,6 +10,7 @@ public class PlayerShip extends Ship {
 
 	public PlayerShip(Position position) {
 		super(position);
+		this.life = 3;
 	}
 
 	public boolean moveLeftOk(){
@@ -52,6 +53,7 @@ public class PlayerShip extends Ship {
 	public void setLife(float life) {
 		super.setLife(life);
 		setChanged();
+		this.notifyObservers(life);
 	}
 	
 }

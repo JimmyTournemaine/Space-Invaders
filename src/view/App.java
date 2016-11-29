@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import exception.NoMoreLevelException;
 import model.GameModel;
 
 import javax.swing.JLabel;
@@ -23,7 +24,7 @@ import javax.swing.Timer;
 
 public class App extends JFrame implements ActionListener, MouseListener {
 
-	private static final int LOOP_DELAY = 500;
+	private static final int LOOP_DELAY = 200;
 	private static final long serialVersionUID = -3449937559620207851L;
 	private JPanel contentPane;
 	GameModel model;
@@ -70,7 +71,7 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 		model = new GameModel();
 
-		JLabel lblLife = new ValueLabel("Life", (int) model.getPlayer().getLife());
+		JLabel lblLife = new ValueLabel("Life", model.getPlayer().getLife());
 		panel.add(lblLife);
 
 		model.addObserver((Observer) lblScore);
@@ -81,6 +82,14 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		contentPane.add(canvas, BorderLayout.CENTER);
 
 		timer = new Timer(LOOP_DELAY, this);
+	}
+	
+	public void stop() {
+		timer.stop();
+	}
+	
+	public void start() {
+		
 	}
 
 	@Override
@@ -95,9 +104,15 @@ public class App extends JFrame implements ActionListener, MouseListener {
 				timer.restart();
 			}
 		} else if (res == GameModel.GAME_LEVEL_DONE) {
-			model.nextLevel();
+			try {
+				model.nextLevel();
+			} catch(NoMoreLevelException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage());
+			}
 		}
+		
 		model.notifyObservers(model.getScore());
+		model.getPlayer().notifyObservers(model.getPlayer().getLife());
 	}
 
 	@Override
