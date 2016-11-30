@@ -1,59 +1,75 @@
 package model;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.awt.Graphics;
+import java.awt.Point;
 
 public class PlayerShip extends Ship {
 
-	public PlayerShip(Position position) {
-		super(position);
-		this.life = 3;
+	private final static String IMAGE = "assets/playership.png";
+	private final static float LIFE = 3.0f;
+	private final static int SPEED = 5;
+	private final static float DAMAGE = 1.0f;
+	private final static float SHIELD = 0.0f;
+
+	private boolean invincible = false;
+	private boolean visible = true;
+
+	public PlayerShip() {
+		super(new Point(100, GameModel.HEIGHT-100), IMAGE, LIFE, DAMAGE, SHIELD);
+		this.speed = SPEED;
 	}
 
-	public boolean moveLeftOk(){
-		if (position.getX() == 0)
-			return false;
-		return true;
-	}
-	
-	public boolean moveRightOk(){
-		if (position.getX() == GameModel.CELL_WIDTH-1)
-			return false;
-		return true;
-	}
-	
-	public boolean moveUpOk(){
-		if (position.getY() == 5)
-			return false;
-		return true;
-	}
-	
-	public boolean moveDownOk(){
-		if (position.getY()  == 0)
-			return false;
-		return true;
-	}
-
-	@Override
-	public Image getSprite() throws IOException {
-		return ImageIO.read(new File("assets/playership.png"));
-	}
-	
 	@Override
 	public Missile shoot() {
-		return new Missile(
-				new Position(this.getPosition().getX(), this.getPosition().getY()), 
-				Missile.NORTH
-		);
+		return MissileFactory.createPlayerMissile(position);
 	}
-	
-	public void setLife(float life) {
-		super.setLife(life);
-		setChanged();
-		this.notifyObservers(life);
+
+	@Override
+	public void move() {
+
+		super.move();
+
+		if (this.getBounds().getMinX() <= 0) {
+			position.x = 0;
+		} else if (this.getBounds().getMaxX() >= GameModel.WIDTH) {
+			position.x = GameModel.WIDTH - width;
+		}
+		if (this.getBounds().getMinY() <= 0) {
+			position.y = 0;
+		} else if (this.getBounds().getMaxY() >= GameModel.HEIGHT) {
+			position.y = GameModel.HEIGHT - height;
+		}
 	}
-	
+
+	public void takeDamageFrom(AnimatedObject ao) {
+		if (!invincible) {
+			super.takeDamageFrom(ao);
+
+			if (!isDead()) {
+				Thread invincible = new InvincibleFrames(this);
+				invincible.start();
+			}
+		}
+	}
+
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public void drawOn(Graphics g) {
+		if (visible)
+			super.drawOn(g);
+	}
 }

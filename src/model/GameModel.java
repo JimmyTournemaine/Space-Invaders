@@ -1,8 +1,7 @@
 package model;
 
+import java.awt.Point;
 import java.util.*;
-
-import model.invaders.Invader;
 
 public class GameModel extends Observable {
 
@@ -10,100 +9,126 @@ public class GameModel extends Observable {
 	public final static int GAME_LEVEL_DONE = 1;
 	public final static int GAME_OVER = 2;
 
-	public final static int CELL_WIDTH = 10;
-	public final static int CELL_HEIGHT = 10;
+	public final static int HEIGHT = 600;
+	public final static int WIDTH = 800;
 
-	private boolean right;
 	private int level;
 	private int score;
-	private Ship player;
+	private PlayerShip player;
 	private ArrayList<Invader> invaders;
+	private Invader leftest;
+	private Invader rightest;
 	private List<Missile> missiles;
 
 	public GameModel() {
-		player = new PlayerShip(new Position(0, 0));
-		missiles = new ArrayList<Missile>();
 		this.newGame();
 	}
 
 	public void newGame() {
-		right = false;
+		player = new PlayerShip();
+		missiles = new ArrayList<Missile>();
 		level = 1;
 		score = 0;
 		invaders = Level.create(1);
+		this.extremaInvaders();
 	}
 
 	public void nextLevel() {
 		level++;
 		invaders = Level.create(level);
+		this.extremaInvaders();
 	}
+	
+	/**
+	 * Update the invader the most at right and at left
+	 */
+	private void extremaInvaders()
+	{
+		if(invaders.isEmpty()) {
+			return;
+		}
 
-	private void checkMissiles() {
-		Iterator<Missile> it = missiles.iterator();
-		while(it.hasNext()){
-			Missile m = it.next();
-			Iterator<Invader> itor = invaders.iterator();
-			while(itor.hasNext()) {
-				Invader iv = itor.next();
-				if(m.getPosition().equals(iv.getPosition())){
-					it.remove();
-					if(m.shot(iv) <= 0){ // Killed
-						itor.remove();
-						this.setScore((int) (score+10*(m.getLife()+m.getDamage())/2));
-					}
+		if(leftest == null)
+			leftest = invaders.get(0);
+		if(rightest == null)
+			rightest = invaders.get(0);
+		
+		if(!invaders.isEmpty()) {
+			for(Invader iv : invaders) {
+				Point pos = iv.getPosition();
+				if(pos.x < leftest.getPosition().x) {
+					leftest = iv;
+				}
+				if(pos.x > rightest.getPosition().x) {
+					rightest = iv;
 				}
 			}
 		}
 	}
 
 	public int move() {
+		
+		/* Move player */
+		player.move();
+		
 		/* Move missiles */
 		Iterator<Missile> it = missiles.iterator();
 		while (it.hasNext()) {
 			Missile m = it.next();
-			if (m.direction() == Missile.NORTH && m.moveUpOk()) {
-				m.moveUp();
-			} else if (m.direction() == Missile.SOUTH && m.moveDownOk()) {
-				m.moveDown();
-			} else {
+			m.move();
+			
+			/* Missile is out */
+			if(m.getBounds().getMinY() <= 0 || m.getBounds().getMaxY() >= GameModel.HEIGHT){
 				it.remove();
+				continue;
+			}
+			
+			/* Missile collision */
+			if(m.dy() > 0) { // Invader missile
+				if(m.intersect(player)){
+					player.takeDamageFrom(m);
+				}
+			} else { // Player missile
+				Iterator<Invader> it1 = invaders.iterator();
+				while(it1.hasNext()) {
+					Invader inv = it1.next();
+					if(inv.intersect(m)){
+						inv.takeDamageFrom(m);
+						m.takeDamage();
+						if(inv.isDead())
+							it1.remove();
+						if(m.isDead()) {
+							it.remove();
+							this.extremaInvaders();
+						}
+					}
+				}
 			}
 		}
 
 		/* Move invaders */
-		
-		if (right && this.invadersMoveRightOk()) {
-			for (Invader inv : invaders)
-				inv.moveRight();
-		} else if (!right && this.invadersMoveLeftOk()) {
-			for (Invader inv : invaders)
-				inv.moveLeft();
-		} else {
-			if (InvadersPos.invadersMoveDownOk(invaders)) {
-				for (Invader inv : invaders)
-					inv.moveDown();
-				right = !right;
-			} else
-				return GAME_OVER;
+		if(leftest.getBounds().getMinX() <= 0) {
+			for(Invader iv : invaders) {
+				iv.getPosition().translate(0, iv.getBounds().height);
+				iv.dx(1);
+			}
+		} else if(rightest.getBounds().getMaxX() >= GameModel.WIDTH) {
+			for(Invader iv : invaders) {
+				iv.getPosition().translate(0, iv.getBounds().height);
+				iv.dx(-1);
+			}
 		}
-		
-		/* Collision */
-		this.checkMissiles();
-		
 		Iterator<Invader> it2 = invaders.iterator();
 		while(it2.hasNext()) {
 			Invader iv = it2.next();
-			//System.out.printf("(%d,%d) — (%d,%d)", player.getPosition().getX(), player.getPosition().getY(), iv.getPosition().getX());
-			if(iv.getPosition().equals(player.getPosition())) {
-				player.setLife(player.getLife() - iv.getDamage());
-				if(player.getLife() <= 0)
-					return GameModel.GAME_OVER;
-			}
+			iv.move();
+			if(iv.intersect(player))
+				player.takeDamageFrom(iv);
 		}
-
-		if (invaders.isEmpty())
-			return GAME_LEVEL_DONE;
-
+		
+		/* Check model state */
+		if(invaders.isEmpty()) return GAME_LEVEL_DONE;
+		if(player.isDead()) return GAME_OVER;
 		return GAME_RUNNING;
 	}
 
@@ -111,19 +136,7 @@ public class GameModel extends Observable {
 		missiles.add(player.shoot());
 	}
 
-	private boolean invadersMoveRightOk() {
-		if (InvadersPos.mostRight(invaders).moveRightOk())
-			return true;
-		return false;
-	}
-
-	private boolean invadersMoveLeftOk() {
-		if (InvadersPos.mostLeft(invaders).moveLeftOk())
-			return true;
-		return false;
-	}
-
-	public Ship getPlayer() {
+	public PlayerShip getPlayer() {
 		return player;
 	}
 

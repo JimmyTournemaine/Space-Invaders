@@ -8,39 +8,45 @@ import view.GameView;
 
 public class GameController implements KeyListener {
 
+	private final int UP = KeyEvent.VK_UP;
+	private final int LEFT = KeyEvent.VK_LEFT;
+	private final int DOWN = KeyEvent.VK_DOWN;
+	private final int RIGHT = KeyEvent.VK_RIGHT;
+	private final int SHOOT = KeyEvent.VK_X;
+
 	private GameModel model;
 	private GameView view;
-	
+
 	private boolean active = false;
-	
+
+	public GameController(GameModel model, GameView view) {
+		this.model = model;
+		this.view = view;
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("called");
-		if(!active) return;
-		
+		if (!active)
+			return;
+
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_Q:
-			this.goLeft();
+		case LEFT:
+			model.getPlayer().dx(-1);
 			break;
-		case KeyEvent.VK_RIGHT:
-		case KeyEvent.VK_D:
-			this.goRight();
+		case RIGHT:
+			model.getPlayer().dx(1);
 			break;
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_Z:
-			this.goUp();
+		case UP:
+			model.getPlayer().dy(-1);
 			break;
-		case KeyEvent.VK_DOWN:
-		case KeyEvent.VK_S:
-			this.goDown();
+		case DOWN:
+			model.getPlayer().dy(1);
 			break;
-		case KeyEvent.VK_SPACE:
-		case KeyEvent.VK_X:
-			this.shoot();
+		case SHOOT:
+			model.playerShoot();
 		}
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// DO NOTHING
@@ -48,50 +54,22 @@ public class GameController implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// DO NOTHING
-	}
-
-	public GameController(GameModel model, GameView view) {
-		this.model = model;
-		this.view = view;
-	}
-
-	public void goLeft() {
-		if(model.getPlayer().moveLeftOk()) {
-			model.getPlayer().moveLeft();
-			view.repaint();
+		switch (e.getKeyCode()) {
+		case LEFT:
+		case RIGHT:
+			model.getPlayer().dx(0);
+			break;
+		case UP:
+		case DOWN:
+			model.getPlayer().dy(0);
+			break;
 		}
 	}
 
-	public void goRight() {
-		if(model.getPlayer().moveRightOk()) {
-			model.getPlayer().moveRight();
-			view.repaint();
-		}
-	}
-
-	public void goUp() {
-		if(model.getPlayer().moveUpOk()) {
-			model.getPlayer().moveUp();
-			view.repaint();
-		}
-	}
-
-	public void goDown() {
-		if(model.getPlayer().moveDownOk()) {
-			model.getPlayer().moveDown();
-			view.repaint();
-		}
-	}
-
-	public void shoot() {
-		model.playerShoot();
-	}
-	
 	public void enable() {
 		active = true;
 	}
-	
+
 	public void disable() {
 		active = false;
 	}

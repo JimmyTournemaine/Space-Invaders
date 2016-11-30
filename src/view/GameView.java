@@ -1,57 +1,49 @@
 package view;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.io.IOException;
-import java.util.Iterator;
+import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 
 import model.GameModel;
+import model.Invader;
 import model.Missile;
-import model.Position;
-import model.invaders.Invader;
 
 public class GameView extends JComponent {
 
 	private static final long serialVersionUID = 9171658068315238226L;
 	private GameModel model;
 
-	GameView(GameModel model) throws IOException {
+	GameView(GameModel model) {
 		this.model = model;
 	}
 
-	public void paint(Graphics gr) {
-		try {
-			Graphics2D g = (Graphics2D) gr;
-			int caseX = this.getWidth() / GameModel.CELL_WIDTH;
-			int caseY = this.getHeight() / GameModel.CELL_HEIGHT;
-			
-			/* Ship */
-			Position p = model.getPlayer().getPosition();
-			Position pos = new Position(p.getX() * caseX, this.getHeight() - (p.getY()+1)*(caseY));
-			g.drawImage(model.getPlayer().getSprite(), pos.getX(), pos.getY(), this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
-			
-			/* Invaders */
-			Iterator<Invader> itor = model.getInvaders().iterator();
-			while (itor.hasNext()) {
-				Invader inv = itor.next();
-				Position p1 = inv.getPosition();
-				Position pos1 = new Position(p1.getX() * caseX, this.getHeight() - (p1.getY()+1)*(caseY));
-				g.drawImage(inv.getSprite(), pos1.getX(), pos1.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
+	public void paint(Graphics g) {
+
+		/* Ship */
+		model.getPlayer().drawOn(g);
+
+		/* Invaders */
+		for (Invader iv : model.getInvaders())
+			iv.drawOn(g);
+
+		/* Missiles */
+		for (Missile m : model.getMissiles()) {
+			m.drawOn(g);
+		}
+		
+		if(App.DEBUG_MODE) {
+			Rectangle rec = model.getPlayer().getBounds();
+			g.drawRect(rec.x, rec.y, rec.width, rec.height);
+			for (Invader iv : model.getInvaders()){
+				rec = iv.getBounds();
+				g.drawRect(rec.x, rec.y, rec.width, rec.height);
 			}
-			
-			/* Missiles */
-			for(Missile m : model.getMissiles()) {
-				Position p2 = m.getPosition();
-				Position pos2 = new Position(p2.getX() * caseX, this.getHeight() - (p2.getY()+1)*(caseY));
-				g.drawImage(m.getSprite(), pos2.getX(), pos2.getY(),  this.getWidth() / GameModel.CELL_WIDTH, this.getHeight() / GameModel.CELL_HEIGHT, null);
+			for (Missile m : model.getMissiles()) {
+				rec = m.getBounds();
+				g.drawRect(rec.x, rec.y, rec.width, rec.height);
 			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
 		}
 	}
 
-	
 }

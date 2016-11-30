@@ -1,32 +1,34 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import controller.GameController;
 import exception.NoMoreLevelException;
 import model.GameModel;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 public class App extends JFrame implements ActionListener, MouseListener {
 
-	private static final int LOOP_DELAY = 100;
+	public static final boolean DEBUG_MODE = true;
+
+	private static final int LOOP_DELAY = 8;
 	private static final long serialVersionUID = -3449937559620207851L;
 	private JPanel contentPane;
+	ValueLabel lblLife, lblScore;
 	GameModel model;
 	GameView canvas;
 	GameController controller;
@@ -56,7 +58,9 @@ public class App extends JFrame implements ActionListener, MouseListener {
 	 */
 	public App() throws IOException, InterruptedException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(GameModel.WIDTH, GameModel.HEIGHT + 40);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -66,36 +70,34 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblScore = new ValueLabel("Score", 0);
+		lblScore = new ValueLabel("Score", 0);
 		lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblScore, BorderLayout.EAST);
 
 		model = new GameModel();
 
-		JLabel lblLife = new ValueLabel("Life", model.getPlayer().getLife());
+		lblLife = new ValueLabel("Life", model.getPlayer().getLife());
 		panel.add(lblLife);
 
-		model.addObserver((Observer) lblScore);
-		model.getPlayer().addObserver((Observer) lblLife);
-		
 		canvas = new GameView(model);
 		canvas.addMouseListener(this);
+		canvas.setPreferredSize(new Dimension(GameModel.WIDTH, GameModel.HEIGHT));
 		this.setFocusable(true);
 		this.requestFocusInWindow();
-		
+
 		contentPane.add(canvas, BorderLayout.CENTER);
-		
+
 		controller = new GameController(model, canvas);
 		this.addKeyListener(this.controller);
 
 		timer = new Timer(LOOP_DELAY, this);
 	}
-	
+
 	public void stop() {
 		timer.stop();
 		controller.disable();
 	}
-	
+
 	public void start() {
 		timer.start();
 		controller.enable();
@@ -103,8 +105,11 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		canvas.repaint();
 		int res = model.move();
+		this.lblLife.setValue(model.getPlayer().getLife());
+		this.lblScore.setValue(model.getScore());
+		
+		canvas.repaint();
 		if (res == GameModel.GAME_OVER) {
 			this.stop();
 			if (JOptionPane.showConfirmDialog(this, "Start a new Game ?", "Game Over !",
@@ -115,13 +120,10 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		} else if (res == GameModel.GAME_LEVEL_DONE) {
 			try {
 				model.nextLevel();
-			} catch(NoMoreLevelException e1) {
+			} catch (NoMoreLevelException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
 			}
 		}
-		
-		model.notifyObservers(model.getScore());
-		model.getPlayer().notifyObservers(model.getPlayer().getLife());
 	}
 
 	@Override

@@ -1,32 +1,23 @@
 package model;
 
-import java.awt.Image;
-import java.io.IOException;
+import java.awt.Point;
 
 public abstract class Ship extends AnimatedObject {
 	
-	public abstract boolean moveLeftOk();
-	public abstract boolean moveRightOk();
-	public abstract boolean moveUpOk();
-	public abstract boolean moveDownOk();
+	protected float shield;
 	
-	public Ship (Position pos){
-		super(pos);
+	public Ship (Point pos, String imageName, float life, float damage, float shield){
+		super(pos, imageName, life, damage);
+		this.shield = shield;
 	}
-	
-	public void moveLeft(){
-		position.updateX(position.getX() - 1);
-	}
-	
-	public void moveRight(){
-		position.updateX(position.getX() + 1);
-	}
-	
-	public Position getPosition() {
-		return position;
-	}
-	
-	abstract public Image getSprite() throws IOException;
 	
 	abstract public Missile shoot();
+	
+	public void dx(int dx) {
+		this.direction.x = dx;
+	}
+	
+	public void dy(int dy) {
+		this.direction.y = dy;
+	}
 }

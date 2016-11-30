@@ -1,40 +1,44 @@
 package model;
 
-import java.util.Observable;
+import java.awt.Point;
 
-public abstract class AnimatedObject extends Observable {
-	protected Position position;
+public abstract class AnimatedObject extends Sprite {
+	
+	protected Point direction;
+	protected int speed;
 	protected float life;
 	protected float damage;
 	
-	public abstract boolean moveDownOk();
-	public abstract boolean moveUpOk();
-	
-	public AnimatedObject(Position position) {
-		this.position = position;
-		this.life = 1.0f;
-		this.damage = 1.0f;
+	public AnimatedObject(Point position, String imageName, float life, float damage) {
+		super(position);
+		this.direction = new Point(0,0);
+		this.life = life;
+		this.damage = damage;
+		this.speed = 1;
+		this.loadImage(imageName);
 	}
 	
-	public void moveUp(){
-		position.updateY(position.getY() + 1);
+	public void move() {
+		position.translate(direction.x * speed, direction.y * speed);
 	}
-	
+
 	public float getLife() {
 		return life;
 	}
-	public void setLife(float life) {
-		this.life = life;
-		setChanged();
+
+	public void takeDamageFrom(AnimatedObject ao) {
+		this.life = life - ao.damage;
 	}
+
 	public float getDamage() {
 		return damage;
 	}
-	public void moveDown(){
-		position.updateY(position.getY() - 1);
+	
+	public boolean isDead() {
+		return life <= 0;
 	}
 	
-	public Position getPosition() {
-		return this.position;
-	}
+	public boolean intersect(Sprite theOther) {
+    	return this.getBounds().intersects(theOther.getBounds());
+    }
 }
