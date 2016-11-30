@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import javax.swing.JComponent;
 
-import controller.GameController;
 import model.GameModel;
 import model.Missile;
 import model.Position;
@@ -17,14 +16,9 @@ public class GameView extends JComponent {
 
 	private static final long serialVersionUID = 9171658068315238226L;
 	private GameModel model;
-	private GameController controller;
 
 	GameView(GameModel model) throws IOException {
 		this.model = model;
-		this.controller = new GameController(model, this);
-		this.addKeyListener(this.controller);
-		this.setFocusable(true);
-		this.requestFocusInWindow();
 	}
 
 	public void paint(Graphics gr) {

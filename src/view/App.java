@@ -9,11 +9,11 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Observer;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.GameController;
 import exception.NoMoreLevelException;
 import model.GameModel;
 
@@ -24,11 +24,12 @@ import javax.swing.Timer;
 
 public class App extends JFrame implements ActionListener, MouseListener {
 
-	private static final int LOOP_DELAY = 200;
+	private static final int LOOP_DELAY = 100;
 	private static final long serialVersionUID = -3449937559620207851L;
 	private JPanel contentPane;
 	GameModel model;
-	JComponent canvas;
+	GameView canvas;
+	GameController controller;
 	Timer timer;
 
 	/**
@@ -76,20 +77,28 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 		model.addObserver((Observer) lblScore);
 		model.getPlayer().addObserver((Observer) lblLife);
-
+		
 		canvas = new GameView(model);
 		canvas.addMouseListener(this);
+		this.setFocusable(true);
+		this.requestFocusInWindow();
+		
 		contentPane.add(canvas, BorderLayout.CENTER);
+		
+		controller = new GameController(model, canvas);
+		this.addKeyListener(this.controller);
 
 		timer = new Timer(LOOP_DELAY, this);
 	}
 	
 	public void stop() {
 		timer.stop();
+		controller.disable();
 	}
 	
 	public void start() {
-		
+		timer.start();
+		controller.enable();
 	}
 
 	@Override
@@ -97,7 +106,7 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		canvas.repaint();
 		int res = model.move();
 		if (res == GameModel.GAME_OVER) {
-			timer.stop();
+			this.stop();
 			if (JOptionPane.showConfirmDialog(this, "Start a new Game ?", "Game Over !",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				model.newGame();
@@ -118,9 +127,9 @@ public class App extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (timer.isRunning())
-			timer.stop();
+			this.stop();
 		else
-			timer.start();
+			this.start();
 	}
 
 	@Override
@@ -141,6 +150,6 @@ public class App extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		if (timer.isRunning())
-			timer.stop();
+			this.stop();
 	}
 }

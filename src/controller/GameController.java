@@ -11,8 +11,12 @@ public class GameController implements KeyListener {
 	private GameModel model;
 	private GameView view;
 	
+	private boolean active = false;
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("called");
+		if(!active) return;
 		
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
@@ -82,6 +86,14 @@ public class GameController implements KeyListener {
 
 	public void shoot() {
 		model.playerShoot();
+	}
+	
+	public void enable() {
+		active = true;
+	}
+	
+	public void disable() {
+		active = false;
 	}
 
 }

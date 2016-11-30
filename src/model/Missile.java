@@ -17,6 +17,11 @@ public class Missile extends AnimatedObject{
 		this.direction = direction; 
 	}
 	
+	public float shot(Ship ship) {
+		ship.setLife(ship.getLife() - this.getDamage());
+		return ship.getLife();
+	}
+	
 	@Override
 	public boolean moveDownOk() {
 		return (position.getY() != 0);
