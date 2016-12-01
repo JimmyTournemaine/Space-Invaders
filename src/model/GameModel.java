@@ -80,7 +80,8 @@ public class GameModel extends Observable {
 		/* Move missiles */
 		Iterator<Missile> it = missiles.iterator();
 		while (it.hasNext()) {
-			Missile m = it.next();
+			try {
+			Missile m = it.next(); 
 			m.move();
 
 			/* Missile is out */
@@ -101,16 +102,23 @@ public class GameModel extends Observable {
 					if (inv.intersect(m)) {
 						inv.takeDamageFrom(m);
 						m.takeDamage();
-						if (inv.isDead())
+						if (inv.isDead()){
 							it1.remove();
+							this.extremaInvaders();
+						}
 						if (m.isDead()) {
 							it.remove();
-							this.extremaInvaders();
 						}
 						break;
 					}
 				}
 			}
+			} catch(java.util.ConcurrentModificationException e) {
+				for(Missile m : missiles) {
+					System.out.println(m.toString());
+				}
+			}
+			
 		}
 
 		/* Move invaders */

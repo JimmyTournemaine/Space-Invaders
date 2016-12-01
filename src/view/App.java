@@ -132,6 +132,8 @@ public class App extends JFrame implements ActionListener, MouseListener {
 				model.nextLevel();
 			} catch (NoMoreLevelException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
+				this.stop();
+				this.dispose();
 			}
 		}
 	}

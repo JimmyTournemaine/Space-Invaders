@@ -1,11 +1,10 @@
-package model.invader;
+package model.bonus;
 
 import java.awt.Point;
 
 import model.AliveObject;
 import model.GameModel;
-import model.bonus.Bonus;
-import model.bonus.BonusGenerator;
+import model.invader.Invader;
 
 public class BonusInvader extends Invader {
 

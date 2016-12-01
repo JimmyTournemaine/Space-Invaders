@@ -6,7 +6,7 @@ import model.AnimatedObject;
 import model.GameModel;
 
 public abstract class Bonus extends AnimatedObject {
-
+	
 	protected GameModel model;
 	
 	public Bonus(Point position, String imageName, GameModel model) {

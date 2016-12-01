@@ -32,7 +32,7 @@ public class PlayerShip extends Ship {
 		
 		GameModel.missiles.add(MissileFactory.createPlayerMissile(position, weapon));
 		nbMissiles--;
-		(new ShootCooldown(this)).start();
+		(new ShootCooldown(this, MissileFactory.weapons[weapon])).start();
 		
 	}
 
@@ -94,5 +94,9 @@ public class PlayerShip extends Ship {
 	
 	public void setCanShoot(boolean boo) {
 		canShoot = boo;
+	}
+
+	public void setWeapon(int weapon) {
+		this.weapon = weapon;
 	}
 }

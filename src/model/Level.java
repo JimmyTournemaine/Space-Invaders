@@ -18,15 +18,7 @@ public class Level {
 
 	private static ArrayList<Invader>  level1() {
 		ArrayList<Invader> invaders = new ArrayList<Invader>();
-		for (int i = 1; i<5; i++){
-			invaders.add(InvaderFactory.createBasicInvader(new Point(i*100, 10)));
-		}
-		for (int i = 1; i<5; i++){
-			invaders.add(InvaderFactory.createStrongInvader(new Point(i*100, 110)));
-		}
-		for (int i = 1; i<5; i++){
-			invaders.add(InvaderFactory.createBonusInvader(new Point(i*100, 210)));
-		}
+		invaders.add(InvaderFactory.createBoss1Invader());
 		return invaders;
 	}
 	

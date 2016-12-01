@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class MissileFactory {
 
+	public static int[] weapons = { 500, 1000, 20 };
 	public static int MISSILE = 0;
 	public static int LASER = 1;
 	public static int MACHINEGUN = 2;

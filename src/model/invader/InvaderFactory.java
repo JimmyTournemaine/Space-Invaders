@@ -2,6 +2,8 @@ package model.invader;
 
 import java.awt.Point;
 
+import model.bonus.BonusInvader;
+
 public class InvaderFactory {
 
 	public static Invader createBasicInvader(Point pos) {
@@ -18,5 +20,8 @@ public class InvaderFactory {
 	}
 	public static Invader createFightInvader(Point pos) {
 		return new FightInvader(pos, "assets/invader5.png", 1.0f, 1.0f);
+	}
+	public static Invader createBoss1Invader() {
+		return new Boss1Invader();
 	}
 }
