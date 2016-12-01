@@ -43,7 +43,7 @@ public class GameController implements KeyListener {
 			model.getPlayer().dy(1);
 			break;
 		case SHOOT:
-			model.playerShoot();
+			model.getPlayer().shoot();
 		}
 	}
 

@@ -2,7 +2,7 @@ package model;
 
 import java.awt.Point;
 
-public class Missile extends AnimatedObject {
+public class Missile extends AliveObject {
 	
 	final public static int SPEED = 2;
 	final public static int NORTH = -1;

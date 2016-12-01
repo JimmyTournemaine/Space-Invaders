@@ -6,8 +6,9 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 
 import model.GameModel;
-import model.Invader;
 import model.Missile;
+import model.bonus.Bonus;
+import model.invader.Invader;
 
 public class GameView extends JComponent {
 
@@ -30,6 +31,11 @@ public class GameView extends JComponent {
 		/* Missiles */
 		for (Missile m : model.getMissiles()) {
 			m.drawOn(g);
+		}
+		
+		/* Bonus */
+		for (Bonus b : GameModel.bonus) {
+			g.drawArc(b.getPosition().x, b.getPosition().y, b.getBounds().width, b.getBounds().height, 0, 360);
 		}
 		
 		if(App.DEBUG_MODE) {

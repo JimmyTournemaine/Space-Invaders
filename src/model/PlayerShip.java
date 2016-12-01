@@ -9,19 +9,22 @@ public class PlayerShip extends Ship {
 	private final static float LIFE = 3.0f;
 	private final static int SPEED = 5;
 	private final static float DAMAGE = 1.0f;
-	private final static float SHIELD = 0.0f;
 
 	private boolean invincible = false;
 	private boolean visible = true;
 
 	public PlayerShip() {
-		super(new Point(100, GameModel.HEIGHT-100), IMAGE, LIFE, DAMAGE, SHIELD);
+		super(new Point(100, GameModel.HEIGHT-100), IMAGE, LIFE, DAMAGE);
 		this.speed = SPEED;
+		this.nbMissiles = 50;
 	}
 
 	@Override
-	public Missile shoot() {
-		return MissileFactory.createPlayerMissile(position);
+	public void shoot() {
+		if(nbMissiles <= 0)
+			return;
+		
+		GameModel.missiles.add(MissileFactory.createPlayerMissile(position));
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public class PlayerShip extends Ship {
 		}
 	}
 
-	public void takeDamageFrom(AnimatedObject ao) {
+	public void takeDamageFrom(AliveObject ao) {
 		if (!invincible) {
 			super.takeDamageFrom(ao);
 
@@ -71,5 +74,9 @@ public class PlayerShip extends Ship {
 	public void drawOn(Graphics g) {
 		if (visible)
 			super.drawOn(g);
+	}
+	
+	public void addLife(float l) {
+		life += l;
 	}
 }

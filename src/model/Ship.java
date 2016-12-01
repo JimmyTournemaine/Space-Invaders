@@ -2,16 +2,16 @@ package model;
 
 import java.awt.Point;
 
-public abstract class Ship extends AnimatedObject {
+public abstract class Ship extends AliveObject {
 	
-	protected float shield;
+	protected int nbMissiles;
 	
-	public Ship (Point pos, String imageName, float life, float damage, float shield){
+	public Ship (Point pos, String imageName, float life, float damage){
 		super(pos, imageName, life, damage);
-		this.shield = shield;
+		this.nbMissiles = 0;
 	}
 	
-	abstract public Missile shoot();
+	abstract public void shoot();
 	
 	public void dx(int dx) {
 		this.direction.x = dx;
