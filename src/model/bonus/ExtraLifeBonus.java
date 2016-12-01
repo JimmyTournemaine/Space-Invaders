@@ -6,11 +6,11 @@ import model.GameModel;
 
 public class ExtraLifeBonus extends Bonus {
 
-	public ExtraLifeBonus(Point position, String imageName, GameModel model) {
-		super(position, imageName, model);
-	}
-
 	final private int LIFE = 1;
+	
+	public ExtraLifeBonus(Point position, GameModel model) {
+		super(position, "assets/bonus-extralife.png", model);
+	}
 	
 	@Override
 	public void activate() {

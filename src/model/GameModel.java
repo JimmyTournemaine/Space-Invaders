@@ -74,7 +74,6 @@ public class GameModel extends Observable {
 
 	public int move() {
 
-		/* Move player */
 		player.move();
 
 		/* Move missiles */
@@ -107,6 +106,7 @@ public class GameModel extends Observable {
 							it.remove();
 							this.extremaInvaders();
 						}
+						break;
 					}
 				}
 			}
@@ -130,6 +130,17 @@ public class GameModel extends Observable {
 			iv.move();
 			if (iv.intersect(player))
 				player.takeDamageFrom(iv);
+		}
+		
+		/* Move and activate bonus */
+		Iterator<Bonus> it3 = bonus.iterator();
+		while (it3.hasNext()) {
+			Bonus b = it3.next();
+			b.move();
+			if (b.intersect(player)){
+				b.activate();
+				it3.remove();
+			}
 		}
 
 		/* Check model state */

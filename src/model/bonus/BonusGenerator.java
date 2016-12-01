@@ -29,8 +29,8 @@ public class BonusGenerator {
 			/* It drops a bonus */
 			try {
 				b = (Bonus) bonus[Math.abs(rdm.nextInt()) % bonus.length]
-						.getConstructor(Point.class, String.class, GameModel.class)
-						.newInstance(ao.getPosition(), "", model);
+						.getConstructor(Point.class, GameModel.class)
+						.newInstance(ao.getPosition(), model);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

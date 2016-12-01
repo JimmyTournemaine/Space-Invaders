@@ -35,7 +35,7 @@ public class GameView extends JComponent {
 		
 		/* Bonus */
 		for (Bonus b : GameModel.bonus) {
-			g.drawArc(b.getPosition().x, b.getPosition().y, b.getBounds().width, b.getBounds().height, 0, 360);
+			b.drawOn(g);
 		}
 		
 		if(App.DEBUG_MODE) {
@@ -48,6 +48,10 @@ public class GameView extends JComponent {
 			for (Missile m : model.getMissiles()) {
 				rec = m.getBounds();
 				g.drawRect(rec.x, rec.y, rec.width, rec.height);
+			}
+			for (Bonus b : GameModel.bonus) {
+				rec = b.getBounds();
+				b.drawOn(g);
 			}
 		}
 	}

@@ -7,11 +7,11 @@ import model.Ship;
 
 public class StrongerPlayerBonus extends Bonus {
 
-	private final int DURATION = 2000;
+	private final int DURATION = 10000;
 	private Thread effect;
 	
-	public StrongerPlayerBonus(Point position, String imageName, GameModel model) {
-		super(position, imageName, model);
+	public StrongerPlayerBonus(Point position, GameModel model) {
+		super(position, "assets/bonus-extralife.png", model);
 		effect = new Effect();
 	}
 
