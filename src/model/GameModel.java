@@ -6,6 +6,7 @@ import java.util.*;
 import model.bonus.Bonus;
 import model.bonus.BonusGenerator;
 import model.invader.Invader;
+import model.weapon.Missile;
 
 public class GameModel extends Observable {
 
@@ -83,7 +84,7 @@ public class GameModel extends Observable {
 			m.move();
 
 			/* Missile is out */
-			if (m.getBounds().getMinY() <= 0 || m.getBounds().getMaxY() >= GameModel.HEIGHT) {
+			if (m.getBounds().getMaxY() <= 0 || m.getBounds().getMinY() >= GameModel.HEIGHT) {
 				it.remove();
 				continue;
 			}

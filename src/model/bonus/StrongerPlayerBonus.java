@@ -11,7 +11,7 @@ public class StrongerPlayerBonus extends Bonus {
 	private Thread effect;
 	
 	public StrongerPlayerBonus(Point position, GameModel model) {
-		super(position, "assets/bonus-extralife.png", model);
+		super(position, "assets/bonus-orange.png", model);
 		effect = new Effect();
 	}
 

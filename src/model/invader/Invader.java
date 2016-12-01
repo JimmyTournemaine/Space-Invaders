@@ -3,8 +3,8 @@ package model.invader;
 import java.awt.Point;
 
 import model.GameModel;
-import model.MissileFactory;
 import model.Ship;
+import model.weapon.MissileFactory;
 
 public class Invader extends Ship {
 
@@ -19,6 +19,7 @@ public class Invader extends Ship {
 			return;
 		
 		GameModel.missiles.add(MissileFactory.createBasicMissile(position));
+		nbMissiles--;
 	}
 
 	@Override

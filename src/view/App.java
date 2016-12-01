@@ -15,11 +15,13 @@ import javax.swing.JPanel;
 import controller.GameController;
 import exception.NoMoreLevelException;
 import model.GameModel;
+import model.PlayerShip;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JProgressBar;
 
 public class App extends JFrame implements ActionListener, MouseListener {
 
@@ -33,6 +35,7 @@ public class App extends JFrame implements ActionListener, MouseListener {
 	GameView canvas;
 	GameController controller;
 	Timer timer;
+	private JProgressBar progressBar;
 
 	/**
 	 * Launch the application.
@@ -77,7 +80,13 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		model = new GameModel();
 
 		lblLife = new ValueLabel("Life", model.getPlayer().getLife());
-		panel.add(lblLife);
+		panel.add(lblLife, BorderLayout.WEST);
+		
+		JPanel missiles = new JPanel();
+		progressBar = new JProgressBar(JProgressBar.HORIZONTAL, 0, PlayerShip.MAX_MISSILES);
+		progressBar.setValue(PlayerShip.MAX_MISSILES);
+		missiles.add(progressBar);
+		panel.add(missiles, BorderLayout.CENTER);
 
 		canvas = new GameView(model);
 		canvas.addMouseListener(this);
@@ -108,6 +117,7 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		int res = model.move();
 		this.lblLife.setValue(model.getPlayer().getLife());
 		this.lblScore.setValue(model.getScore());
+		this.progressBar.setValue(model.getPlayer().remainingMissiles());
 		
 		canvas.repaint();
 		if (res == GameModel.GAME_OVER) {

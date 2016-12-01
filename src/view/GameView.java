@@ -6,9 +6,9 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 
 import model.GameModel;
-import model.Missile;
 import model.bonus.Bonus;
 import model.invader.Invader;
+import model.weapon.Missile;
 
 public class GameView extends JComponent {
 
