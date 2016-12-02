@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.awt.Graphics;
 import java.awt.Point;
 
 import model.weapon.MissileFactory;

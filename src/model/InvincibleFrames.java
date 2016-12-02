@@ -2,7 +2,7 @@ package model;
 
 public class InvincibleFrames extends Thread {
 
-	private final static int INVINCIBLE_FRAME = 100;
+	private final static int INVINCIBLE_FRAME = 1000;
 
 	private PlayerShip player;
 
