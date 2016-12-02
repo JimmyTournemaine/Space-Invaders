@@ -27,23 +27,23 @@ public class PlayerShip extends Ship {
 	public final static int MAX_MISSILES = 150;
 
 	private boolean invincible = false;
-	private boolean visible = true;
 	private boolean canShoot = true;
 	public int weapon = 0;
 
 	public PlayerShip() {
 		super(new Point(100, GameModel.HEIGHT-100), IMAGE, LIFE, DAMAGE);
-		this.speed = SPEED;
-		this.nbMissiles = MAX_MISSILES;
+		this.setSpeed(SPEED);
+		this.setNbMissiles(MAX_MISSILES);
 	}
 
 	@Override
 	public void shoot() {
-		if(nbMissiles <= 0 || !canShoot)
+		if(getNbMissiles() <= 0 || !canShoot)
 			return;
 		
+		this.playSound(MissileFactory.sounds[weapon]);
 		GameModel.missiles.add(MissileFactory.createPlayerMissile(position, weapon));
-		nbMissiles--;
+		setNbMissiles(getNbMissiles() - 1);
 		(new ShootCooldown(this,MissileFactory.weapons[weapon])).start();
 		
 	}
@@ -94,30 +94,6 @@ public class PlayerShip extends Ship {
 	public void setInvincible(boolean invincible) {
 		this.invincible = invincible;
 	}
-
-	/**
-	 * Return a boolean that represents if the user ship is visible
-	 * @return If the user is visible
-	 */
-	public boolean isVisible() {
-		return visible;
-	}
-
-	/**
-	 * Set if the player ship is visible or not
-	 * @param visible If the user ship will be visible
-	 */
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	/**
-	 * Draw the ship
-	 */
-	public void drawOn(Graphics g) {
-		if (visible)
-			super.drawOn(g);
-	}
 	
 	/**
 	 * Add lifes
@@ -132,7 +108,7 @@ public class PlayerShip extends Ship {
 	 * @return the number of remaining missiles
 	 */
 	public int remainingMissiles() {
-		return nbMissiles;
+		return getNbMissiles();
 	}
 	
 	/**
@@ -156,6 +132,6 @@ public class PlayerShip extends Ship {
 	 * @param fire The number of ammo to give to the user
 	 */
 	public void addFire(int fire) {
-		this.nbMissiles +=fire;
+		this.setNbMissiles(this.getNbMissiles() + fire);
 	}
 }

@@ -24,23 +24,25 @@ public class Invader extends Ship {
 	public Invader(Point pos, String imageName, float life, float damage, int speed) {
 		super(pos, imageName, life, damage);
 		this.direction = new Point(-1,0);
-		this.speed = speed;
+		this.setSpeed(speed);
 	}
 
 	@Override
 	public void shoot() {
-		if(nbMissiles <= 0)
+		if(getNbMissiles() <= 0)
 			return;
+		
+		this.playSound("assets/fire.wav");
 		Random rn = new Random();
 		int r = rn.nextInt(3);
 		
 		GameModel.missiles.add(MissileFactory.createBasicMissile(position,r));
-		nbMissiles--;
+		setNbMissiles(getNbMissiles() - 1);
 	}
 
 	@Override
 	public void move() {
-		position.translate(direction.x*speed, direction.y*speed);
+		position.translate(direction.x*getSpeed(), direction.y*getSpeed());
 	}
 	
 	

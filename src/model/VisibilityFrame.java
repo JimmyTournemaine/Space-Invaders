@@ -1,0 +1,25 @@
+package model;
+
+public class VisibilityFrame extends Thread {
+private final static int VISIBLE_FRAME = 100;
+	
+	private Ship ship;
+	
+	public VisibilityFrame(Ship sh) {
+		this.ship = sh;
+		ship.setVisible(true);
+	}
+	
+	public void run() {
+		for(int i=0 ; i<=10; i++) {
+			ship.setVisible(i%2 == 0);
+			
+			try {
+				Thread.sleep(VISIBLE_FRAME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		ship.setVisible(true);
+	}
+}

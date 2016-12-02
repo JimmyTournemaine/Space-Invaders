@@ -5,7 +5,15 @@
 package model;
 
 import java.awt.Point;
+import java.io.File;
 import java.util.*;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineEvent.Type;
+import javax.sound.sampled.LineListener;
 
 import model.bonus.Bonus;
 import model.bonus.BonusGenerator;
@@ -20,7 +28,7 @@ import model.weapon.Missile;
  * @author Mohammad Hammoud
  * @author Tahar Mezouari
  */
-public class GameModel extends Observable {
+public class GameModel extends Observable implements LineListener {
 
 	public final static int GAME_RUNNING = 0;
 	public final static int GAME_LEVEL_DONE = 1;
@@ -37,10 +45,35 @@ public class GameModel extends Observable {
 	private Invader rightest;
 	public static List<Missile> missiles;
 	public static List<Bonus> bonus;
+	private Clip clip;
 
 	public GameModel() {
+		try {
+			clip = AudioSystem.getClip();
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("assets/music.wav"));
+			clip.open(inputStream);
+			clip.addLineListener(this);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		this.newGame();
 		BonusGenerator.setModel(this);
+	}
+
+	private synchronized void playSound() {
+		new Thread(new Runnable() {
+			public void run() {
+				clip.start();
+			}
+		}).start();
+	}
+
+	@Override
+	public void update(LineEvent event) {
+		if (event.getType() == Type.STOP) {
+			clip.setMicrosecondPosition(0);
+			clip.start();
+		}
 	}
 
 	public void newGame() {
@@ -51,6 +84,7 @@ public class GameModel extends Observable {
 		score = 0;
 		invaders = Level.create(1);
 		this.extremaInvaders();
+		this.playSound();
 	}
 
 	public void nextLevel() {
@@ -68,14 +102,14 @@ public class GameModel extends Observable {
 	 * Update the invader the most at right and at left
 	 */
 	private void minXInvader() {
-		
+
 		if (invaders.isEmpty()) {
 			return;
 		}
-		
+
 		leftest = invaders.get(0);
 
-		for (int i=1 ; i<invaders.size(); i++) { 
+		for (int i = 1; i < invaders.size(); i++) {
 			Invader iv = invaders.get(i);
 			Point pos = iv.getPosition();
 			if (pos.x < leftest.getPosition().x) {
@@ -89,10 +123,10 @@ public class GameModel extends Observable {
 		if (invaders.isEmpty()) {
 			return;
 		}
-		
+
 		rightest = invaders.get(0);
 
-		for (int i=1 ; i<invaders.size(); i++) { 
+		for (int i = 1; i < invaders.size(); i++) {
 			Invader iv = invaders.get(i);
 			Point pos = iv.getPosition();
 			if (pos.x > rightest.getPosition().x) {
@@ -135,7 +169,7 @@ public class GameModel extends Observable {
 								this.minXInvader();
 							if (inv == rightest)
 								this.maxXInvader();
-							System.out.printf("Plus à gauche : %s\t Plus à droite : %s\n", leftest, rightest);
+							score += 10 * inv.getDamage();
 						}
 						if (m.isDead()) {
 							it.remove();
@@ -163,6 +197,8 @@ public class GameModel extends Observable {
 		while (it2.hasNext()) {
 			Invader iv = it2.next();
 			iv.move();
+			if(iv.getBounds().getMinY() <= 0)
+				return GAME_OVER;
 			if (iv.intersect(player))
 				player.takeDamageFrom(iv);
 		}

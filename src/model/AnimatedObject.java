@@ -17,12 +17,12 @@ import java.awt.Point;
 public abstract class AnimatedObject extends Sprite {
 	
 	protected Point direction;
-	protected int speed;
+	private int speed;
 	
 	public AnimatedObject(Point position, String imageName) {
 		super(position);
 		this.direction = new Point(0,0);
-		this.speed = 1;
+		this.setSpeed(1);
 		this.loadImage(imageName);
 	}
 	
@@ -30,7 +30,7 @@ public abstract class AnimatedObject extends Sprite {
 	 * Translate the position by the direction vector
 	 */
 	public void move() {
-		position.translate(direction.x * speed, direction.y * speed);
+		position.translate(direction.x * getSpeed(), direction.y * getSpeed());
 	}
 	
 	/**
@@ -41,4 +41,12 @@ public abstract class AnimatedObject extends Sprite {
 	public boolean intersect(Sprite theOther) {
     	return this.getBounds().intersects(theOther.getBounds());
     }
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 }

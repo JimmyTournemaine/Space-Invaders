@@ -35,7 +35,7 @@ import javax.swing.JProgressBar;
  */
 public class App extends JFrame implements ActionListener, MouseListener {
 
-	public static final boolean DEBUG_MODE = true;
+	public static final boolean DEBUG_MODE = false;
 
 	private static final int LOOP_DELAY = 8;
 	private static final long serialVersionUID = -3449937559620207851L;

@@ -27,7 +27,7 @@ public class FightInvader extends Invader {
 	 */
 	public FightInvader(Point pos, String imageName, float life, float damage,int speed) {
 		super(pos, imageName, life, damage,speed);
-		this.nbMissiles = 10;
+		this.setNbMissiles(10);
 	}
 	
 	/**

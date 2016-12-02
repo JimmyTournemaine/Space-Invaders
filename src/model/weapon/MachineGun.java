@@ -24,7 +24,7 @@ public class MachineGun extends Missile{
 	 * @param direction The direction of the missile
 	 */
 	public MachineGun(Point pt, String fileName, int direction) {
-		super(pt, fileName, direction, Integer.MAX_VALUE, 1f);
-		this.speed = SPEED;
+		super(pt, fileName, direction, 1f, 0.5f);
+		this.setSpeed(SPEED);
 	}
 }

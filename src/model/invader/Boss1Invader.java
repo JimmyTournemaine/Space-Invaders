@@ -26,7 +26,7 @@ public class Boss1Invader extends FightInvader {
 	 */
 	public Boss1Invader() {
 		super(new Point(10,10), "assets/boss1.png", 100f, 2.0f, 5);
-		this.speed = SPEED;
+		this.setSpeed(SPEED);
 	}
 	
 	/**

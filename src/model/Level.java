@@ -1,7 +1,3 @@
-/*
- * Created on 28 nov. 2016 under the authority of Alain Plantec 
- * as part of academic project at the University of Western Brittany
- */
 package model;
 
 import java.awt.Point;
@@ -11,14 +7,6 @@ import exception.NoMoreLevelException;
 import model.invader.Invader;
 import model.invader.InvaderFactory;
 
-/**
- * A factory that create levels
- * 
- * @author Jean Arthur Ousmane
- * @author Jimmy Tournemaine
- * @author Mohammad Hammoud
- * @author Tahar Mezouari
- */
 public class Level {
 	static private final int lowestSpeed = 1;
 	static private final int veryLowSpeed = 2;
@@ -26,11 +14,7 @@ public class Level {
 	static private final int mediumSpeed = 4;
 	static private final int fastSpeed = 5;
 	
-	/**
-	 * Create the level number {@code l}
-	 * @param l The number of the level
-	 * @return A list of invaders
-	 */
+
 	public static ArrayList<Invader> create(int l) {
 		switch (l) {
 		case 1: return level1();
@@ -120,6 +104,5 @@ public class Level {
 		
 		return invaders;
 	}
-	
-	
+		
 }

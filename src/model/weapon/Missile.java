@@ -33,7 +33,7 @@ public class Missile extends AliveObject {
 	public Missile(Point pt, String fileName, int direction, float life, float damage){
 		super(pt, fileName, life, damage);
 		this.direction = new Point(0, direction);
-		this.speed = SPEED;
+		this.setSpeed(SPEED);
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class Missile extends AliveObject {
 	public Missile(Point pt, String fileName, int direction){
 		super(pt, fileName, 1.0f, 1.0f);
 		this.direction = new Point(0, direction);
-		this.speed = SPEED;
+		this.setSpeed(SPEED);
 	}
 	
 	/**

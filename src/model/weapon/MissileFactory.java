@@ -20,6 +20,7 @@ public class MissileFactory {
 	public static int LASER = 1;
 	public static int MACHINEGUN = 2;
 	public static int[] weapons = { 500, 1000, 20};
+	public static String[] sounds = { "assets/fire.wav", "assets/laser.wav", "assets/fire.wav"};
 	
 
 	/**

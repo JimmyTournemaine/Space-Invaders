@@ -26,7 +26,7 @@ public class Laser extends Missile {
 	 */
 	public Laser(Point pt, String fileName, int direction) {
 		super(pt, fileName, direction, Integer.MAX_VALUE, 1f);
-		this.speed = SPEED;
+		this.setSpeed(SPEED);
 	}
 
 }

@@ -1,7 +1,3 @@
-/*
- * Created on 28 nov. 2016 under the authority of Alain Plantec 
- * as part of academic project at the University of Western Brittany
- */
 package model.bonus;
 
 import java.awt.Point;
@@ -10,13 +6,6 @@ import java.util.Random;
 import model.AnimatedObject;
 import model.GameModel;
 
-/**
- * Generate (or not) a random bonus
- * @author Jean Arthur Ousmane
- * @author Jimmy Tournemaine
- * @author Mohammad Hammoud
- * @author Tahar Mezouari
- */
 public class BonusGenerator {
 
 	private static final int LUCK = 1;
@@ -24,7 +13,9 @@ public class BonusGenerator {
 			model.bonus.ExtraLifeFireBonus.class,
 			model.bonus.StrongerPlayerBonus.class,
 			model.bonus.BonusGunLaser.class,
-			model.bonus.BonusMachineGun.class,};
+			model.bonus.BonusMachineGun.class,
+			model.bonus.MalusNoFire.class,
+			model.bonus.MalusSlower.class,};
 
 	private static GameModel model;
 
@@ -32,11 +23,6 @@ public class BonusGenerator {
 		model = m;
 	}
 
-	/**
-	 * Generate (or not) a bonus
-	 * @param ao The object that drop the bonus
-	 * @return The bonus or null
-	 */
 	public static Bonus generate(AnimatedObject ao) {
 		if (model == null)
 			throw new RuntimeException();
@@ -48,7 +34,7 @@ public class BonusGenerator {
 			try {
 				b = (Bonus) bonus[Math.abs(rdm.nextInt()) % bonus.length]
 						.getConstructor(Point.class, GameModel.class)
-						.newInstance(ao.getPosition(), model);
+						.newInstance(ao.getPosition().clone(), model);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
