@@ -1,3 +1,7 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package model;
 
 import java.awt.Point;
@@ -8,6 +12,14 @@ import model.bonus.BonusGenerator;
 import model.invader.Invader;
 import model.weapon.Missile;
 
+/**
+ * Game Model is the main class of our model
+ * 
+ * @author Jean Arthur Ousmane
+ * @author Jimmy Tournemaine
+ * @author Mohammad Hammoud
+ * @author Tahar Mezouari
+ */
 public class GameModel extends Observable {
 
 	public final static int GAME_RUNNING = 0;
@@ -15,7 +27,7 @@ public class GameModel extends Observable {
 	public final static int GAME_OVER = 2;
 
 	public final static int HEIGHT = 600;
-	public final static int WIDTH = 800;
+	public final static int WIDTH = 1024;
 
 	private int level;
 	private int score;
@@ -47,28 +59,44 @@ public class GameModel extends Observable {
 		this.extremaInvaders();
 	}
 
+	private void extremaInvaders() {
+		minXInvader();
+		maxXInvader();
+	}
+
 	/**
 	 * Update the invader the most at right and at left
 	 */
-	private void extremaInvaders() {
+	private void minXInvader() {
+		
 		if (invaders.isEmpty()) {
 			return;
 		}
+		
+		leftest = invaders.get(0);
 
-		if (leftest == null)
-			leftest = invaders.get(0);
-		if (rightest == null)
-			rightest = invaders.get(0);
+		for (int i=1 ; i<invaders.size(); i++) { 
+			Invader iv = invaders.get(i);
+			Point pos = iv.getPosition();
+			if (pos.x < leftest.getPosition().x) {
+				leftest = iv;
+			}
+		}
 
-		if (!invaders.isEmpty()) {
-			for (Invader iv : invaders) {
-				Point pos = iv.getPosition();
-				if (pos.x < leftest.getPosition().x) {
-					leftest = iv;
-				}
-				if (pos.x > rightest.getPosition().x) {
-					rightest = iv;
-				}
+	}
+
+	private void maxXInvader() {
+		if (invaders.isEmpty()) {
+			return;
+		}
+		
+		rightest = invaders.get(0);
+
+		for (int i=1 ; i<invaders.size(); i++) { 
+			Invader iv = invaders.get(i);
+			Point pos = iv.getPosition();
+			if (pos.x > rightest.getPosition().x) {
+				rightest = iv;
 			}
 		}
 	}
@@ -80,8 +108,7 @@ public class GameModel extends Observable {
 		/* Move missiles */
 		Iterator<Missile> it = missiles.iterator();
 		while (it.hasNext()) {
-			try {
-			Missile m = it.next(); 
+			Missile m = it.next();
 			m.move();
 
 			/* Missile is out */
@@ -102,23 +129,22 @@ public class GameModel extends Observable {
 					if (inv.intersect(m)) {
 						inv.takeDamageFrom(m);
 						m.takeDamage();
-						if (inv.isDead()){
+						if (inv.isDead()) {
 							it1.remove();
-							this.extremaInvaders();
+							if (inv == leftest)
+								this.minXInvader();
+							if (inv == rightest)
+								this.maxXInvader();
+							System.out.printf("Plus à gauche : %s\t Plus à droite : %s\n", leftest, rightest);
 						}
 						if (m.isDead()) {
 							it.remove();
+							;
 						}
 						break;
 					}
 				}
 			}
-			} catch(java.util.ConcurrentModificationException e) {
-				for(Missile m : missiles) {
-					System.out.println(m.toString());
-				}
-			}
-			
 		}
 
 		/* Move invaders */
@@ -140,13 +166,13 @@ public class GameModel extends Observable {
 			if (iv.intersect(player))
 				player.takeDamageFrom(iv);
 		}
-		
+
 		/* Move and activate bonus */
 		Iterator<Bonus> it3 = bonus.iterator();
 		while (it3.hasNext()) {
 			Bonus b = it3.next();
 			b.move();
-			if (b.intersect(player)){
+			if (b.intersect(player)) {
 				b.activate();
 				it3.remove();
 			}

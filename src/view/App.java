@@ -1,3 +1,7 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package view;
 
 import java.awt.BorderLayout;
@@ -7,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +26,13 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JProgressBar;
 
+/**
+ * Launch the application
+ * @author Jean Arthur Ousmane
+ * @author Jimmy Tournemaine
+ * @author Mohammad Hammoud
+ * @author Tahar Mezouari
+ */
 public class App extends JFrame implements ActionListener, MouseListener {
 
 	public static final boolean DEBUG_MODE = true;
@@ -39,6 +49,7 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * Launch the application.
+	 * @param args Arguments from command lines
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -55,11 +66,8 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * Create the frame.
-	 * 
-	 * @throws IOException
-	 * @throws InterruptedException
 	 */
-	public App() throws IOException, InterruptedException {
+	public App() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(GameModel.WIDTH, GameModel.HEIGHT + 40);
 		setResizable(false);
@@ -96,22 +104,31 @@ public class App extends JFrame implements ActionListener, MouseListener {
 
 		contentPane.add(canvas, BorderLayout.CENTER);
 
-		controller = new GameController(model, canvas);
+		controller = new GameController(model);
 		this.addKeyListener(this.controller);
 
 		timer = new Timer(LOOP_DELAY, this);
 	}
 
+	/**
+	 * Stop the timer and disable controller actions btw
+	 */
 	public void stop() {
 		timer.stop();
 		controller.disable();
 	}
 
+	/**
+	 * (Re)Start the timer
+	 */
 	public void start() {
 		timer.start();
 		controller.enable();
 	}
 
+	/**
+	 * The main logic of the game
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int res = model.move();
@@ -138,6 +155,9 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
+	/**
+	 * Player/Pause on click
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (timer.isRunning())
@@ -161,6 +181,9 @@ public class App extends JFrame implements ActionListener, MouseListener {
 		// Nothing to do
 	}
 
+	/**
+	 * Pause on mouse exited
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		if (timer.isRunning())

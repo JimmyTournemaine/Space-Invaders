@@ -1,11 +1,22 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import model.GameModel;
-import view.GameView;
 
+/**
+ * Catch user events to update the model
+ * 
+ * @author Jean Arthur Ousmane
+ * @author Jimmy Tournemaine
+ * @author Mohammad Hammoud
+ * @author Tahar Mezouari
+ */
 public class GameController implements KeyListener {
 
 	private final int UP = KeyEvent.VK_UP;
@@ -15,13 +26,15 @@ public class GameController implements KeyListener {
 	private final int SHOOT = KeyEvent.VK_X;
 
 	private GameModel model;
-	private GameView view;
 
 	private boolean active = false;
 
-	public GameController(GameModel model, GameView view) {
+	/**
+	 * Create the controller
+	 * @param model The game model
+	 */
+	public GameController(GameModel model) {
 		this.model = model;
-		this.view = view;
 	}
 
 	@Override
@@ -66,10 +79,16 @@ public class GameController implements KeyListener {
 		}
 	}
 
+	/**
+	 * Enable the catching of events
+	 */
 	public void enable() {
 		active = true;
 	}
 
+	/**
+	 * Disable the catching of events
+	 */
 	public void disable() {
 		active = false;
 	}
