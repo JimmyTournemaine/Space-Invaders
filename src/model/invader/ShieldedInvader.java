@@ -4,7 +4,11 @@
  */
 package model.invader;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import model.AliveObject;
 
@@ -19,6 +23,7 @@ import model.AliveObject;
 public class ShieldedInvader extends Invader {
 
 	private boolean shield = true;
+	private Image shieldImage;
 	
 	/**
 	 * Create a shielded invader
@@ -30,6 +35,8 @@ public class ShieldedInvader extends Invader {
 	 */
 	public ShieldedInvader(Point pos, String imageName, float life, float damage, int speed) {
 		super(pos, imageName, life, damage,speed);
+		ImageIcon ii = new ImageIcon("assets/shield.png");
+		shieldImage = ii.getImage();
 	}
 	
 	/**
@@ -44,6 +51,14 @@ public class ShieldedInvader extends Invader {
 		} else {
 			super.takeDamageFrom(ao);
 		}
+	}
+	
+	@Override
+	public void drawOn(Graphics g)
+	{
+		super.drawOn(g);
+		if(shield)
+			g.drawImage(shieldImage, position.x-8, position.y-15, null);
 	}
 
 	

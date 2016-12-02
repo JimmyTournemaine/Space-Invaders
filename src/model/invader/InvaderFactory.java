@@ -25,7 +25,7 @@ public class InvaderFactory {
 	public static Invader createBonusInvader(Point pos, int speed) {
 		return new BonusInvader(pos, "assets/invader3.png", 1.0f, 1.0f, speed);
 	}
-	public static Invader createShiedInvader(Point pos, int speed) {
+	public static Invader createShieldInvader(Point pos, int speed) {
 		return new ShieldedInvader(pos, "assets/invader4.png", 1.0f, 1.0f, speed);
 	}
 	public static Invader createFightInvader(Point pos, int speed) {

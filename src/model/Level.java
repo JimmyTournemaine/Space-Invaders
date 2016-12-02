@@ -17,7 +17,7 @@ public class Level {
 
 	public static ArrayList<Invader> create(int l) {
 		switch (l) {
-		case 1: return level1();
+		case 1: return level3();
 		case 2: return level2();
 		case 3: return level3();
 		case 4: return level4();
@@ -62,7 +62,7 @@ public class Level {
 			invaders.add(InvaderFactory.createFightInvader(new Point(i*100, 10),lowSpeed));
 		}
 		for (int i = 1; i<5; i++){
-			invaders.add(InvaderFactory.createStrongInvader(new Point(i*100, 60),lowSpeed));
+			invaders.add(InvaderFactory.createShieldInvader(new Point(i*100, 60),lowSpeed));
 		}
 		for (int i = 1; i<5; i++){
 			invaders.add(InvaderFactory.createBonusInvader(new Point(i*100, 110),lowSpeed));
