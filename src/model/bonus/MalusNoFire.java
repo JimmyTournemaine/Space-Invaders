@@ -1,7 +1,12 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package model.bonus;
 
 import java.awt.Point;
 
+import model.Bonus;
 import model.GameModel;
 
 public class MalusNoFire extends Bonus {

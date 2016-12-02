@@ -1,3 +1,7 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package model;
 
 import java.awt.Point;
@@ -17,7 +21,7 @@ public class Level {
 
 	public static ArrayList<Invader> create(int l) {
 		switch (l) {
-		case 1: return level3();
+		case 1: return level1();
 		case 2: return level2();
 		case 3: return level3();
 		case 4: return level4();

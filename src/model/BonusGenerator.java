@@ -1,10 +1,11 @@
-package model.bonus;
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
+package model;
 
 import java.awt.Point;
 import java.util.Random;
-
-import model.AnimatedObject;
-import model.GameModel;
 
 public class BonusGenerator {
 
@@ -15,7 +16,8 @@ public class BonusGenerator {
 			model.bonus.BonusGunLaser.class,
 			model.bonus.BonusMachineGun.class,
 			model.bonus.MalusNoFire.class,
-			model.bonus.MalusSlower.class,};
+			model.bonus.MalusSlower.class,
+			model.bonus.ExtraDamageBonus.class};
 
 	private static GameModel model;
 

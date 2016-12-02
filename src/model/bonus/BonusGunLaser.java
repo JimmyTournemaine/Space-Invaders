@@ -6,8 +6,8 @@ package model.bonus;
 
 import java.awt.Point;
 
+import model.Bonus;
 import model.GameModel;
-import model.bonus.Bonus;
 import model.weapon.MissileFactory;
 
 /**

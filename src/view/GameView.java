@@ -11,8 +11,8 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import model.Bonus;
 import model.GameModel;
-import model.bonus.Bonus;
 import model.invader.Invader;
 import model.weapon.Missile;
 

@@ -8,9 +8,9 @@ import java.awt.Point;
 import java.util.Random;
 
 import model.AliveObject;
+import model.Bonus;
+import model.BonusGenerator;
 import model.GameModel;
-import model.bonus.Bonus;
-import model.bonus.BonusGenerator;
 import model.weapon.MissileFactory;
 
 /**

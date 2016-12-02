@@ -2,12 +2,9 @@
  * Created on 28 nov. 2016 under the authority of Alain Plantec 
  * as part of academic project at the University of Western Brittany
  */
-package model.bonus;
+package model;
 
 import java.awt.Point;
-
-import model.AnimatedObject;
-import model.GameModel;
 
 /**
  * A bonus

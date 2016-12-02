@@ -6,6 +6,7 @@ package model.bonus;
 
 import java.awt.Point;
 
+import model.Bonus;
 import model.GameModel;
 
 /**

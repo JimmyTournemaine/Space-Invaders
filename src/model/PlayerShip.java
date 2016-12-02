@@ -133,4 +133,19 @@ public class PlayerShip extends Ship {
 	public void addFire(int fire) {
 		this.setNbMissiles(this.getNbMissiles() + fire);
 	}
+	
+	/**
+	 * Set the damages of the player ship
+	 * @param float The new damages
+	 */
+	public  void setDamage(float damage) {
+		super.setDamage(damage);
+		 this.damage = damage;
+		 if(this.damage % 2 == 0){
+			 this.loadImage("assets/pl2.png");
+		 }
+		 if(this.damage % 2 == 1){
+			 this.loadImage("assets/pl3.png");
+		 }
+	}
 }

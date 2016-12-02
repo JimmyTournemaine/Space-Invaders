@@ -15,8 +15,6 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineEvent.Type;
 import javax.sound.sampled.LineListener;
 
-import model.bonus.Bonus;
-import model.bonus.BonusGenerator;
 import model.invader.Invader;
 import model.weapon.Missile;
 

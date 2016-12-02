@@ -1,3 +1,7 @@
+/*
+ * Created on 28 nov. 2016 under the authority of Alain Plantec 
+ * as part of academic project at the University of Western Brittany
+ */
 package model;
 
 public class InvincibleFrames extends Thread {
