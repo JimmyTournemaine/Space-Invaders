@@ -21,14 +21,13 @@ public class MalusSlower extends Bonus {
 private class Slowing extends Thread {
 		
 		public void run() {
-			int playerSpeed= model.getPlayer().getSpeed();
 			try {
 				model.getPlayer().setSpeed(1);
 				Thread.sleep(DURATION);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
-				model.getPlayer().setSpeed(playerSpeed);;
+				model.getPlayer().setSpeed(5);
 			}
 		}
 		

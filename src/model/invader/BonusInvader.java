@@ -39,7 +39,6 @@ public class BonusInvader extends Invader {
 		if(isDead()) {
 			Bonus b = BonusGenerator.generate(this);
 
-			System.out.println(b);
 			if(b!=null) {
 				GameModel.bonus.add(b);
 			}

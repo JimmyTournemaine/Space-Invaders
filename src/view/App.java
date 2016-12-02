@@ -143,14 +143,15 @@ public class App extends JFrame implements ActionListener, MouseListener {
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				model.newGame();
 				timer.restart();
+			} else {
+				exit();
 			}
 		} else if (res == GameModel.GAME_LEVEL_DONE) {
 			try {
 				model.nextLevel();
 			} catch (NoMoreLevelException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
-				this.stop();
-				this.dispose();
+				exit();
 			}
 		}
 	}
@@ -188,5 +189,10 @@ public class App extends JFrame implements ActionListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		if (timer.isRunning())
 			this.stop();
+	}
+	
+	public void exit() {
+		this.stop();
+		this.dispose();
 	}
 }

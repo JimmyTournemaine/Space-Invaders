@@ -32,8 +32,8 @@ public class Level {
 		for (int i = 1; i<3; i++){
 			invaders.add(InvaderFactory.createBonusInvader(new Point(i*100, 10), lowestSpeed ));
 		}
-		for (int i = 1; i<2; i++){
-			invaders.add(InvaderFactory.createStrongInvader(new Point(i*100, 60), lowestSpeed));
+		{
+			invaders.add(InvaderFactory.createStrongInvader(new Point(150, 60), lowestSpeed));
 		}
 		for (int i = 1; i<3; i++){
 			invaders.add(InvaderFactory.createBonusInvader(new Point(i*100, 110), lowestSpeed));

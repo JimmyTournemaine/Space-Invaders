@@ -8,7 +8,7 @@ import model.GameModel;
 
 public class BonusGenerator {
 
-	private static final int LUCK = 1;
+	private static final int LUCK = 2;
 	private static final Class<?>[] bonus = { 
 			model.bonus.ExtraLifeFireBonus.class,
 			model.bonus.StrongerPlayerBonus.class,

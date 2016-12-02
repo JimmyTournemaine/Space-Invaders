@@ -6,7 +6,11 @@ package model.invader;
 
 import java.awt.Point;
 import java.util.Random;
+
+import model.AliveObject;
 import model.GameModel;
+import model.bonus.Bonus;
+import model.bonus.BonusGenerator;
 import model.weapon.MissileFactory;
 
 /**
@@ -49,6 +53,19 @@ public class Boss1Invader extends FightInvader {
 			Random rn = new Random();
 			int r = rn.nextInt(3);
 			GameModel.missiles.add(MissileFactory.createBasicMissile(new Point(position.x+i*40, position.y), r));
+		}
+	}
+	
+	public void takeDamageFrom(AliveObject ao) {
+		super.takeDamageFrom(ao);
+		
+		if(life % 20 == 0) {
+			Bonus b = BonusGenerator.generate(this);
+
+			System.out.println(b);
+			if(b!=null) {
+				GameModel.bonus.add(b);
+			}
 		}
 	}
 

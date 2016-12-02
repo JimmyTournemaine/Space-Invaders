@@ -19,10 +19,10 @@ import model.GameModel;
  */
 public class GameController implements KeyListener {
 
-	private final int UP = KeyEvent.VK_W;
-	private final int LEFT = KeyEvent.VK_A;
-	private final int DOWN = KeyEvent.VK_S;
-	private final int RIGHT = KeyEvent.VK_D;
+	private final int UP = KeyEvent.VK_UP;
+	private final int LEFT = KeyEvent.VK_LEFT;
+	private final int DOWN = KeyEvent.VK_DOWN;
+	private final int RIGHT = KeyEvent.VK_RIGHT;
 	private final int SHOOT = KeyEvent.VK_X;
 
 	private GameModel model;
