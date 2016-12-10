@@ -11,13 +11,13 @@ public class BonusGenerator {
 
 	private static final int LUCK = 2;
 	private static final Class<?>[] bonus = { 
-			model.bonus.ExtraLifeFireBonus.class,
-			model.bonus.StrongerPlayerBonus.class,
 			model.bonus.BonusGunLaser.class,
 			model.bonus.BonusMachineGun.class,
+			model.bonus.ExtraDamageBonus.class,
+			model.bonus.ExtraLifeFireBonus.class,
 			model.bonus.MalusNoFire.class,
 			model.bonus.MalusSlower.class,
-			model.bonus.ExtraDamageBonus.class};
+			model.bonus.ExtraDamageBonus.class,};
 
 	private static GameModel model;
 
@@ -41,6 +41,7 @@ public class BonusGenerator {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(b);
 		return b;
 	}
 }

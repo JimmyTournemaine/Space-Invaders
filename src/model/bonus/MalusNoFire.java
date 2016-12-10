@@ -8,13 +8,14 @@ import java.awt.Point;
 
 import model.Bonus;
 import model.GameModel;
+import model.PlayerShip;
 
 public class MalusNoFire extends Bonus {
 	private final int DURATION = 10000;
 	private Thread inversing;
 
 	public MalusNoFire(Point position, GameModel model) {
-		super(position, "assets/bonus-purple.png", model);
+		super(position, "assets/bonus-pink.png", model);
 		inversing = new Inversing();
 
 	}
@@ -27,14 +28,15 @@ public class MalusNoFire extends Bonus {
 	private class Inversing extends Thread {
 
 		public void run() {
-			int nbmissiles = model.getPlayer().getNbMissiles();
+			PlayerShip p = model.getPlayer();
+			int nbmissiles = p.getNbMissiles();
 			try {
-				model.getPlayer().setNbMissiles(0);
+				p.setNbMissiles(0);
 				Thread.sleep(DURATION);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
-				model.getPlayer().setNbMissiles(nbmissiles);
+				p.setNbMissiles(nbmissiles);
 			}
 		}
 

@@ -8,6 +8,7 @@ import java.awt.Point;
 
 import model.Bonus;
 import model.GameModel;
+import model.PlayerShip;
 
 /**
  * Give extra life(s) to the player
@@ -20,16 +21,17 @@ import model.GameModel;
 public class ExtraLifeFireBonus extends Bonus {
 
 	final private int LIFE = 1;
-	final private int Fire = 20;
-	
+	final private int Fire = 30;
+
 	public ExtraLifeFireBonus(Point position, GameModel model) {
 		super(position, "assets/bonus-red.png", model);
 	}
-	
+
 	@Override
 	public void activate() {
-		model.getPlayer().addLife(LIFE);
-		model.getPlayer().addFire(Fire);
+		PlayerShip p = model.getPlayer();
+		p.addLife(LIFE);
+		p.addFire(Fire);
 	}
 
 }

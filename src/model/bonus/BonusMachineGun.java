@@ -8,6 +8,7 @@ import java.awt.Point;
 
 import model.Bonus;
 import model.GameModel;
+import model.PlayerShip;
 
 /**
  * Give a machine gun to the player
@@ -22,7 +23,7 @@ public class BonusMachineGun extends Bonus {
 	private Thread machine;
 
 	public BonusMachineGun(Point position, GameModel model) {
-		super(position, "assets/bonus-pink.png", model);
+		super(position, "assets/bonus-orange.png", model);
 		machine = new Machine();
 	}
 
@@ -34,13 +35,14 @@ public class BonusMachineGun extends Bonus {
 	private class Machine extends Thread {
 
 		public void run() {
-			model.getPlayer().weapon = 2;
+			PlayerShip p = model.getPlayer();
+			p.setWeapon(2);
 			try {
 				Thread.sleep(DURATION);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
-				model.getPlayer().weapon = 0;
+				p.setWeapon(0);
 			}
 		}
 	}

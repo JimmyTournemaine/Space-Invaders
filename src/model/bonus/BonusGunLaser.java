@@ -8,10 +8,12 @@ import java.awt.Point;
 
 import model.Bonus;
 import model.GameModel;
+import model.PlayerShip;
 import model.weapon.MissileFactory;
 
 /**
  * Give a laser gun to a player
+ * 
  * @author Jean Arthur Ousmane
  * @author Jimmy Tournemaine
  * @author Mohammad Hammoud
@@ -20,10 +22,11 @@ import model.weapon.MissileFactory;
 public class BonusGunLaser extends Bonus {
 	private final int DURATION = 10000;
 	private Thread lasering;
+
 	public BonusGunLaser(Point position, GameModel model) {
-		super(position, "assets/bonus-purple.png", model);
+		super(position, "assets/bonus-blue.png", model);
 		lasering = new Lasering();
-		
+
 	}
 
 	@Override
@@ -31,18 +34,21 @@ public class BonusGunLaser extends Bonus {
 		lasering.start();
 	}
 
-private class Lasering extends Thread {
-		
+	private class Lasering extends Thread {
+
 		public void run() {
-			model.getPlayer().setWeapon(MissileFactory.LASER);
-			try {
-				Thread.sleep(DURATION);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} finally {
-				model.getPlayer().setWeapon(0);
+			PlayerShip p = model.getPlayer();
+			synchronized (p) {
+				p.setWeapon(MissileFactory.LASER);
+				try {
+					Thread.sleep(DURATION);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally {
+					p.setWeapon(0);
+				}
 			}
 		}
-		
+
 	}
 }

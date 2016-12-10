@@ -8,14 +8,15 @@ import java.awt.Point;
 
 import model.Bonus;
 import model.GameModel;
+import model.PlayerShip;
 
 public class MalusSlower extends Bonus {
 	private final int DURATION = 10000;
 	private Thread slowing;
+
 	public MalusSlower(Point position, GameModel model) {
 		super(position, "assets/bonus-purple.png", model);
 		slowing = new Slowing();
-		
 	}
 
 	@Override
@@ -23,18 +24,18 @@ public class MalusSlower extends Bonus {
 		slowing.start();
 	}
 
-private class Slowing extends Thread {
-		
+	private class Slowing extends Thread {
+
 		public void run() {
+			PlayerShip p = model.getPlayer();
 			try {
-				model.getPlayer().setSpeed(1);
+				p.setSpeed(1);
 				Thread.sleep(DURATION);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
-				model.getPlayer().setSpeed(5);
+				p.setSpeed(5);
 			}
 		}
-		
 	}
 }

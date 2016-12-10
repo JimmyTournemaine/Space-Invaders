@@ -30,21 +30,21 @@ public class PlayerShip extends Ship {
 	public int weapon = 0;
 
 	public PlayerShip() {
-		super(new Point(100, GameModel.HEIGHT-100), IMAGE, LIFE, DAMAGE);
+		super(new Point(100, GameModel.HEIGHT - 100), IMAGE, LIFE, DAMAGE);
 		this.setSpeed(SPEED);
 		this.setNbMissiles(MAX_MISSILES);
 	}
 
 	@Override
 	public void shoot() {
-		if(getNbMissiles() <= 0 || !canShoot)
+		if (getNbMissiles() <= 0 || !canShoot)
 			return;
-		
+
 		this.playSound(MissileFactory.sounds[weapon]);
 		GameModel.missiles.add(MissileFactory.createPlayerMissile(position, weapon));
 		setNbMissiles(getNbMissiles() - 1);
-		(new ShootCooldown(this,MissileFactory.weapons[weapon])).start();
-		
+		(new ShootCooldown(this, MissileFactory.weapons[weapon])).start();
+
 	}
 
 	@Override
@@ -80,6 +80,7 @@ public class PlayerShip extends Ship {
 
 	/**
 	 * Return if the player is invincible
+	 * 
 	 * @return If the user is invincible
 	 */
 	public boolean isInvincible() {
@@ -88,39 +89,48 @@ public class PlayerShip extends Ship {
 
 	/**
 	 * Set the invincible state of the player
-	 * @param invincible If the user will invincible
+	 * 
+	 * @param invincible
+	 *            If the user will invincible
 	 */
 	public void setInvincible(boolean invincible) {
 		this.invincible = invincible;
 	}
-	
+
 	/**
 	 * Add lifes
-	 * @param l The number of lifes to add
+	 * 
+	 * @param l
+	 *            The number of lifes to add
 	 */
 	public void addLife(float l) {
 		life += l;
 	}
 
 	/**
-	 * Get the number of remaining missiles 
+	 * Get the number of remaining missiles
+	 * 
 	 * @return the number of remaining missiles
 	 */
 	public int remainingMissiles() {
 		return getNbMissiles();
 	}
-	
+
 	/**
 	 * Set if the user can shoot (cooldown)
-	 * @param boo If the user could shoot
+	 * 
+	 * @param boo
+	 *            If the user could shoot
 	 */
 	public void setCanShoot(boolean boo) {
 		canShoot = boo;
 	}
-	
+
 	/**
 	 * Set the weapon of the player
-	 * @param weapon The new weapon
+	 * 
+	 * @param weapon
+	 *            The new weapon
 	 */
 	public void setWeapon(int weapon) {
 		this.weapon = weapon;
@@ -128,24 +138,28 @@ public class PlayerShip extends Ship {
 
 	/**
 	 * Gave ammo to the player
-	 * @param fire The number of ammo to give to the user
+	 * 
+	 * @param fire
+	 *            The number of ammo to give to the user
 	 */
 	public void addFire(int fire) {
 		this.setNbMissiles(this.getNbMissiles() + fire);
 	}
-	
+
 	/**
 	 * Set the damages of the player ship
-	 * @param float The new damages
+	 * 
+	 * @param float
+	 *            The new damages
 	 */
-	public  void setDamage(float damage) {
+	public void setDamage(float damage) {
 		super.setDamage(damage);
-		 this.damage = damage;
-		 if(this.damage % 2 == 0){
-			 this.loadImage("assets/pl2.png");
-		 }
-		 if(this.damage % 2 == 1){
-			 this.loadImage("assets/pl3.png");
-		 }
+		this.damage = damage;
+		if (this.damage > 1) {
+			this.loadImage("assets/pl2.png");
+		}
+		if (this.damage == 1) {
+			this.loadImage(IMAGE);
+		}
 	}
 }
